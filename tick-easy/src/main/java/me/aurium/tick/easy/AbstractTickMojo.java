@@ -1,4 +1,4 @@
-package me.aurium.tick;
+package me.aurium.tick.easy;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -17,9 +17,6 @@ public abstract class AbstractTickMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "tick.host")
     private String tickHostProperty;
-
-    @Parameter(defaultValue = "tick.address")
-    private String tickAddressProperty;
 
     @Parameter //port for docker to use: THIS IS NOT THE PORT USED BY
     private int dockerPort = 50000;
@@ -47,7 +44,7 @@ public abstract class AbstractTickMojo extends AbstractMojo {
         assert property != null;
         assert value != null;
 
-        project.getProperties().put( property, value );
+        project.getProperties().put( property, value.toString() );
     }
 
 }

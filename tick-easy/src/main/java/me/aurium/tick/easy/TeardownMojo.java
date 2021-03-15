@@ -1,6 +1,7 @@
-package me.aurium.tick;
+package me.aurium.tick.easy;
 
-import me.aurium.tick.util.DBSingleton;
+
+import me.aurium.tick.easy.util.DBSingleton;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;

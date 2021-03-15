@@ -1,6 +1,5 @@
-package me.aurium.tick.util;
+package me.aurium.tick.easy.util;
 
-import org.testcontainers.containers.Container;
 import org.testcontainers.containers.GenericContainer;
 
 import java.util.*;
