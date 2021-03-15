@@ -22,7 +22,10 @@ public class ContainerInitializeMojo extends AbstractContainerMojo {
         getLog().info("(Tick) Initializing new container with docker image type: " + getImageName());
 
         GenericContainer<?> container = new GenericContainer<>(DockerImageName.parse(getImageName()))
-                .withExposedPorts(getDockerPort());
+                .withExposedPorts(getDockerPort())
+                .withPrivilegedMode(true);
+
+        getEnvironmentVariables().forEach(container::addEnv);
 
         getLog().info("(Tick) Attempting to start container!");
 

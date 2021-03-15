@@ -5,6 +5,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractContainerMojo extends AbstractMojo {
 
@@ -22,6 +23,13 @@ public abstract class AbstractContainerMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "${project}", readonly = true, required = true)
     private MavenProject project;
+
+    protected Map<String, String> getEnvironmentVariables() {
+        return environmentVariables;
+    }
+
+    @Parameter
+    private Map<String,String> environmentVariables;
 
     protected void setTickPortProperty(int port) {
         setProperty(tickPortProperty,port);

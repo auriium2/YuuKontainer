@@ -4,11 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <artifactId>insect</artifactId>
-        <groupId>me.aurium</groupId>
-        <version>0.4.0</version>
-    </parent>
+    <groupId>me.aurium</groupId>
     <artifactId>tick-maven-plugin</artifactId>
     <version>0.1.0</version>
 
@@ -36,6 +32,11 @@
                     <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -62,13 +63,13 @@
         </dependency>
     </dependencies>
 
-    <repositories>
+    <distributionManagement>
         <repository>
             <id>repsy</id>
+            <name>ElytraForceRepo</name>
             <url>https://repo.repsy.io/mvn/elytraforce/default</url>
         </repository>
-    </repositories>
-
+    </distributionManagement>
 
 
 </project>
