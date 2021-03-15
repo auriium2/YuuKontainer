@@ -83,6 +83,8 @@ public class PopulateGoalMojo extends AbstractTickMojo{
             throw new MojoFailureException(e.getMessage());
         } finally {
 
+            BullshitUtils.bullshit();
+
             //fixme tbh i'll have to sort this out some time or another - or replace testcontainers with something more appropriate for my use case.
             //likely best to replace this with some sort of direct Docker shit
 
