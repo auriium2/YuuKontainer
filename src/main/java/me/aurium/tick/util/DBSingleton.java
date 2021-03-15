@@ -11,18 +11,15 @@ import java.util.*;
 public class DBSingleton {
 
     private static DBSingleton instance;
-    private final List<GenericContainer<?>> containers = new LinkedList<>();
 
-    public Iterable<GenericContainer<?>> getContainers() {
-        return containers;
+    private GenericContainer<?> containerInstance;
+
+    public void setContainer(GenericContainer<?> container) {
+        this.containerInstance = container;
     }
 
-    public void addContainer(GenericContainer<?> container) {
-        this.containers.add(container);
-    }
-
-    public void wipeContainers() {
-        this.containers.clear();
+    public Optional<GenericContainer<?>> getContainer() {
+        return Optional.of(containerInstance);
     }
 
     public static DBSingleton get() {

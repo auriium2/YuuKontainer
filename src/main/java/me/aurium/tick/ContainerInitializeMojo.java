@@ -17,30 +17,31 @@ public class ContainerInitializeMojo extends AbstractContainerMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
 
-        getLog().debug("(Tick) Loading all contexts and iterating now!");
+        getLog().info("(Tick) Initializing with properties PortProperty: " + getTickPortProperty() + " and HostProperty: " + getTickHostProperty());
 
-        for (ContainerContext containerContext : this.getContainerContexts()) {
-            getLog().debug("(Tick) Initializing new container with docker image type: " + containerContext.getImageName());
+        getLog().info("(Tick) Initializing new container with docker image type: " + getImageName());
 
-            GenericContainer<?> container = new GenericContainer<>(DockerImageName.parse(containerContext.getImageName()))
-                    .withExposedPorts(containerContext.getOpenPort());
+        GenericContainer<?> container = new GenericContainer<>(DockerImageName.parse(getImageName()))
+                .withExposedPorts(getDockerPort());
 
-            getLog().debug("(Tick) Attempting to start container!");
+        getLog().info("(Tick) Attempting to start container!");
 
-            container.start();
+        container.start();
 
-            getLog().info("(Tick) Initialized TestContainer with details!" +
-                    " ID: " + container.getContainerId() +
-                    " Address: " + container.getContainerIpAddress() +
-                    " Docker Type: " + container.getDockerImageName() +
-                    " Port Bindings: " + container.getPortBindings() +
-                    " Exposed Ports: " + container.getExposedPorts());
+        getLog().info("(Tick) Initialized TestContainer with details!" +
+                " ID: " + container.getContainerId() +
+                " Address: " + container.getContainerIpAddress() +
+                " Docker Type: " + container.getDockerImageName() +
+                " Port Bindings: " + container.getPortBindings() +
+                " Exposed Ports: " + container.getExposedPorts() +
+                " Host: " + container.getHost() +
+                " First Mapped Port: " + container.getFirstMappedPort());
 
-            container.getHost();
-            container.getFirstMappedPort();
-            //this might be an issue since testcontainers remaps the ports, meaning that if we want to use flyway with it there will be consequences
+        setTickHostProperty(container.getHost());
+        setTickPortProperty(container.getFirstMappedPort());
 
-            singleton.addContainer(container);
-        }
+        //this might be an issue since testcontainers remaps the ports, meaning that if we want to use flyway with it there will be consequences
+
+        singleton.setContainer(container);
     }
 }
