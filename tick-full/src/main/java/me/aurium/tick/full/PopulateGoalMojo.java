@@ -17,7 +17,7 @@ public class PopulateGoalMojo extends AbstractTickMojo{
 
         getLog().info("(TICK) Initializing TestContainer!");
 
-        try (JdbcDatabaseContainer<?> construct = initializer.initializeContainer("username","password","sandbox")) {
+        try (JdbcDatabaseContainer<?> construct = getInitializer().initializeContainer("username","password","sandbox")) {
 
             getLog().info("(TICK) Starting TestContainer!");
 
@@ -31,11 +31,11 @@ public class PopulateGoalMojo extends AbstractTickMojo{
 
             getLog().info("(TICK) TestContainer successfully deployed! Loading Flyway!");
 
-            if (locations == null) throw new MojoFailureException("No locations to draw sources from!");
+            if (getLocations() == null) throw new MojoFailureException("No locations to draw sources from!");
 
             Flyway flyway = Flyway.configure(getClass().getClassLoader())
                     .dataSource(url,username,password)
-                    .locations(locations)
+                    .locations(getLocations())
                     .validateMigrationNaming(true).group(true)
                     .load();
 
@@ -45,6 +45,9 @@ public class PopulateGoalMojo extends AbstractTickMojo{
 
             getLog().info("(TICK) Flyway successfully migrated! Now activating JOOQ configuration!");
 
+            String output = getParsedOutput();
+
+
             Configuration configuration = new Configuration()
                     .withJdbc(new Jdbc()
                             .withDriver(construct.getDriverClassName())
@@ -53,13 +56,13 @@ public class PopulateGoalMojo extends AbstractTickMojo{
                             .withPassword(password))
                     .withGenerator(new Generator()
                             .withDatabase(new Database()
-                                    .withName(initializer.correspondingJooqClassName())
+                                    .withName(getInitializer().correspondingJooqClassName())
                                     .withIncludes(".*")
                                     .withExcludes("")
                                     .withInputSchema(construct.getDatabaseName())) //TODO testing
                             .withTarget(new Target()
-                                    .withPackageName(packageName)
-                                    .withDirectory(outputDirectory)));
+                                    .withPackageName(getPackageName())
+                                    .withDirectory(output)));
 
             getLog().info("(TICK) Configuration successful! Activating JOOQ Code Generation!");
 
@@ -76,5 +79,15 @@ public class PopulateGoalMojo extends AbstractTickMojo{
         }
 
 
+    }
+
+    private final static String FILE_SYSTEM = "filesystem:";
+
+    String getParsedOutput() throws MojoFailureException {
+        if (getOutputDirectory().startsWith(FILE_SYSTEM)) {
+            return getOutputDirectory().substring(FILE_SYSTEM.length());
+        } else {
+            throw new MojoFailureException("Output directory is not a correct directory type! (E.g. filesystem:)");
+        }
     }
 }

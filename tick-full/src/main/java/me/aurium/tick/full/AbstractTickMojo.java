@@ -6,17 +6,33 @@ import org.apache.maven.plugins.annotations.Parameter;
 public abstract class AbstractTickMojo extends AbstractMojo {
     //encapsulation over inheritance... bah, i don't care, it's a shitty maven plugin (fix this later)
 
+    public CommonInitializers getInitializer() {
+        return initializer;
+    }
+
+    public String[] getLocations() {
+        return locations;
+    }
+
+    public String getOutputDirectory() {
+        return outputDirectory;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
     @Parameter(defaultValue = "MARIADB")
-    protected CommonInitializers initializer;
+    private CommonInitializers initializer;
 
     @Parameter(required = true)
-    protected String[] locations;
+    private String[] locations;
 
     @Parameter(defaultValue = "target/generated-sources")
-    protected String outputDirectory;
+    private String outputDirectory;
 
     @Parameter(defaultValue = "me.aurium.tick.sources")
-    protected String packageName;
+    private String packageName;
 
 
 
