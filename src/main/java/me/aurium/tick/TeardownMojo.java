@@ -5,11 +5,10 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.testcontainers.containers.GenericContainer;
 
-@Mojo(name = "teardown-containers", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, requiresDependencyResolution = ResolutionScope.TEST)
-public class ContainerTeardownMojo extends AbstractContainerMojo {
+@Mojo(name = "teardown-containers", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
+public class TeardownMojo extends AbstractTickMojo {
 
     private final DBSingleton singleton = DBSingleton.get();
 

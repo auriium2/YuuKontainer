@@ -9,5 +9,8 @@
         <module name="tick" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="tick-simple" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

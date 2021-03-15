@@ -23,7 +23,12 @@ public class DBSingleton {
     }
 
     public static DBSingleton get() {
-        return Objects.requireNonNullElseGet(instance, DBSingleton::new); //stupid stupid singleton bs i hate itttttttttttttt
+
+        if (instance == null) {
+            return instance = new DBSingleton();
+        } else {
+            return instance;
+        }
     }
 
 
