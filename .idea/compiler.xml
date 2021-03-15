@@ -7,10 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="tick-full" />
-        <module name="tick-easy" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="tick-easy" target="1.8" />
       <module name="tick-simpl" target="11" />
       <module name="tick-simple" target="1.8" />
     </bytecodeTargetLevel>

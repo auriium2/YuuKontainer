@@ -9,7 +9,6 @@
     <version>1.0.0</version>
     <modules>
         <module>tick-full</module>
-        <module>tick-easy</module>
     </modules>
 
     <properties>
@@ -23,8 +22,6 @@
         <maven.deploy.version>3.6.3</maven.deploy.version>
 
         <testcontainers.version>1.15.2</testcontainers.version>
-
-        <mariadb.connector></mariadb.connector>
     </properties>
 
     <build>
