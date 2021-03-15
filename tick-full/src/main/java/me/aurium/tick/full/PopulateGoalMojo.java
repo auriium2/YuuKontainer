@@ -12,6 +12,7 @@ import org.testcontainers.containers.JdbcDatabaseContainer;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.INITIALIZE)
 public class PopulateGoalMojo extends AbstractTickMojo{
@@ -74,35 +75,17 @@ public class PopulateGoalMojo extends AbstractTickMojo{
 
             getLog().info("(TICK) Code generation finished!");
 
+
+
             getLog().info("(TICK) Tick generation finished successfully! (?) Please check your target directory to ensure satisfaction!");
 
         } catch (Exception e) {
             throw new MojoFailureException(e.getMessage());
         } finally {
 
-            // removes the shutdown hooks from testcontainers threads because they will fail after mojo closure context closes.
-            // this is obviously horrible, but it stops us from getting pwned by classloader exceptions after successful builds.
-
             //fixme tbh i'll have to sort this out some time or another - or replace testcontainers with something more appropriate for my use case.
             //likely best to replace this with some sort of direct Docker shit
 
-            try {
-                Class<?> clazz = Class.forName("java.lang.ApplicationShutdownHooks");
-                Field field = clazz.getDeclaredField("hooks");
-                field.setAccessible(true);
-                Map<Thread, Thread> hooks = (Map<Thread, Thread>) field.get(null);
-                // Need to create a new map or else we'll get CMEs
-                Map<Thread, Thread> hookMap = new HashMap<>();
-                hooks.forEach(hookMap::put);
-
-                hookMap.forEach((thread, hook) -> {
-                    if (thread.getThreadGroup().getName().toLowerCase().contains("testcontainers")) {
-                        Runtime.getRuntime().removeShutdownHook(hook);
-                    }
-                });
-            } catch (Exception e) {
-                throw new MojoExecutionException("Issue with testcontainers: ", e);
-            }
         }
 
 
