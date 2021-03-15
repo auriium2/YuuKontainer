@@ -2,13 +2,15 @@ package me.aurium.tick.full;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.flywaydb.core.Flyway;
 import org.jooq.codegen.GenerationTool;
 import org.jooq.meta.jaxb.*;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 
+@Mojo(name = "generate", defaultPhase = LifecyclePhase.INITIALIZE)
 public class PopulateGoalMojo extends AbstractTickMojo{
-
 
     @Override
     public void execute() throws MojoExecutionException,MojoFailureException {

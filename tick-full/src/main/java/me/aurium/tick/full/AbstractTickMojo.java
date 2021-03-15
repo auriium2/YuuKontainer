@@ -9,6 +9,7 @@ public abstract class AbstractTickMojo extends AbstractMojo {
     @Parameter(defaultValue = "MARIADB")
     protected CommonInitializers initializer;
 
+    @Parameter(required = true)
     protected String[] locations;
 
     @Parameter(defaultValue = "target/generated-sources")
