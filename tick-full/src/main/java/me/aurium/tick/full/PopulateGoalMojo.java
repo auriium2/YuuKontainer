@@ -9,11 +9,6 @@ import org.jooq.codegen.GenerationTool;
 import org.jooq.meta.jaxb.*;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.INITIALIZE)
 public class PopulateGoalMojo extends AbstractTickMojo{
 
@@ -22,7 +17,7 @@ public class PopulateGoalMojo extends AbstractTickMojo{
 
         getLog().info("(TICK) Initializing TestContainer!");
 
-        try (JdbcDatabaseContainer<?> construct = getInitializer().initializeContainer("username","password","sandbox")) {
+        JdbcDatabaseContainer<?> construct = getInitializer().initializeContainer("username","password","sandbox");
 
             getLog().info("(TICK) Starting TestContainer!");
 
@@ -71,24 +66,18 @@ public class PopulateGoalMojo extends AbstractTickMojo{
 
             getLog().info("(TICK) Configuration successful! Activating JOOQ Code Generation!");
 
+        try {
             GenerationTool.generate(configuration);
+        } catch (Exception e) {
+            throw new MojoFailureException(e.getMessage());
+        }
 
-            getLog().info("(TICK) Code generation finished!");
+        getLog().info("(TICK) Code generation finished!");
 
 
 
             getLog().info("(TICK) Tick generation finished successfully! (?) Please check your target directory to ensure satisfaction!");
 
-        } catch (Exception e) {
-            throw new MojoFailureException(e.getMessage());
-        } finally {
-
-            BullshitUtils.bullshit();
-
-            //fixme tbh i'll have to sort this out some time or another - or replace testcontainers with something more appropriate for my use case.
-            //likely best to replace this with some sort of direct Docker shit
-
-        }
 
 
     }
