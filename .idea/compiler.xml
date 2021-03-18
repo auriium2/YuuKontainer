@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="tick-full" />
         <module name="tick-rapid" />
+        <module name="tick-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

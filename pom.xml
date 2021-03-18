@@ -7,9 +7,11 @@
     <groupId>me.aurium</groupId>
     <artifactId>tick</artifactId>
     <version>1.0.0</version>
+
     <modules>
         <module>tick-full</module>
         <module>tick-rapid</module>
+        <module>tick-api</module>
     </modules>
 
     <properties>

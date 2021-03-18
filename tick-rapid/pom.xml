@@ -13,6 +13,8 @@
 
     <packaging>maven-plugin</packaging>
 
+    <version>1.0.0</version>
+
     <properties>
         <maven.compiler.source>${compiler.version}</maven.compiler.source>
         <maven.compiler.target>${compiler.version}</maven.compiler.target>
