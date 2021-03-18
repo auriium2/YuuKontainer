@@ -8,6 +8,7 @@ import org.flywaydb.core.Flyway;
 import org.jooq.codegen.GenerationTool;
 import org.jooq.meta.jaxb.*;
 import org.testcontainers.containers.JdbcDatabaseContainer;
+import org.testcontainers.utility.ResourceReaper;
 
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.INITIALIZE)
 public class PopulateGoalMojo extends AbstractTickMojo{
@@ -72,11 +73,11 @@ public class PopulateGoalMojo extends AbstractTickMojo{
             throw new MojoFailureException(e.getMessage());
         }
 
-        getLog().info("(TICK) Code generation finished!");
+        getLog().info("(TICK) Code generation finished! Attempting shutdown!");
 
+        ResourceReaper.instance().stopAndRemoveContainer(construct.getContainerId());
 
-
-            getLog().info("(TICK) Tick generation finished successfully! (?) Please check your target directory to ensure satisfaction!");
+        getLog().info("(TICK) Tick generation finished successfully! (?) Please check your target directory to ensure satisfaction!");
 
 
 

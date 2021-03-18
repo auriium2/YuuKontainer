@@ -5,6 +5,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.testcontainers.containers.JdbcDatabaseContainer;
+import org.testcontainers.utility.ResourceReaper;
 
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class TeardownGoalMojo extends AbstractTickMojo{
         if (optional.isPresent()) {
             getLog().info("(TICK) Retrieved optional, attempting teardown!");
 
-            optional.get().stop();
+            ResourceReaper.instance().stopAndRemoveContainer(optional.get().getContainerId());
 
             getLog().info("(TICK) Teardown successful!");
         } else {
