@@ -15,7 +15,7 @@
     </modules>
 
     <properties>
-        <compiler.version>1.8</compiler.version>
+        <compiler.version>11</compiler.version>
 
         <maven.compiler.source>${compiler.version}</maven.compiler.source>
         <maven.compiler.target>${compiler.version}</maven.compiler.target>
