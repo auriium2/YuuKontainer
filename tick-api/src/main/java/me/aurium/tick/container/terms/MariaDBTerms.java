@@ -7,6 +7,7 @@ import com.github.dockerjava.api.model.PortBinding;
 import me.aurium.tick.container.ContainerOptions;
 import me.aurium.tick.container.container.JDBCContainer;
 import me.aurium.tick.container.container.MariaDBContainer;
+import me.aurium.tick.docker.source.DockerLocation;
 
 /**
  * mariadb
@@ -63,7 +64,7 @@ public class MariaDBTerms implements JDBCTerms {
     }
 
     @Override
-    public JDBCContainer creation(DockerClient client, ContainerOptions options) {
+    public JDBCContainer creation(DockerLocation location, DockerClient client, ContainerOptions options) {
         CreateContainerResponse response = client.createContainerCmd("mariadb:10.5.9")
                 .withName(containerName)
                 .withEnv(
@@ -77,7 +78,7 @@ public class MariaDBTerms implements JDBCTerms {
                 )
                 .exec();
 
-         return new MariaDBContainer(client, options, response.getId(), this);
+         return new MariaDBContainer(location, client, options, response.getId(), this);
     }
 
 }

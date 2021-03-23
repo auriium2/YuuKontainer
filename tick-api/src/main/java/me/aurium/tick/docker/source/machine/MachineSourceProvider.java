@@ -74,14 +74,14 @@ public class MachineSourceProvider implements DockerSourceProvider {
 
     private boolean executableExists(String executable) {
 
-        File directFile = new File(executable);
-        if (directFile.exists() && directFile.canExecute()) {
+        Path directFile = Path.of(executable);
+        if (Files.isExecutable(directFile)) {
             return true;
         }
 
         for (String pathString : System.getenv("PATH").split(Pattern.quote(File.pathSeparator))) {
             Path path = Paths.get(pathString);
-            if (Files.exists(path.resolve(executable)) && Files.isExecutable(path.resolve(executable))) {
+            if (Files.isExecutable(path.resolve(executable))) {
                 return true;
             }
         }

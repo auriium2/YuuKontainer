@@ -9,15 +9,15 @@ import com.github.dockerjava.transport.DockerHttpClient;
 
 public class DockerClientProducer {
 
-    private final DockerSource source;
+    private final DockerLocation source;
 
-    public DockerClientProducer(DockerSource source) {
+    public DockerClientProducer(DockerLocation source) {
         this.source = source;
     }
 
     public DockerClient produce(ClientOptions options) {
         DockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder()
-                .withDockerHost(source.getSourceURL())
+                .withDockerHost(source.getUrl())
                 .withDockerTlsVerify(options.isWithTLS())
                 .build();
 
