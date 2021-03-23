@@ -4,10 +4,10 @@ import com.github.dockerjava.api.DockerClient;
 import me.aurium.tick.container.ContainerManager;
 import me.aurium.tick.container.ContainerManagerImpl;
 import me.aurium.tick.container.ContainerOptions;
-import me.aurium.tick.docker.ClientOptions;
-import me.aurium.tick.docker.DockerClientProducer;
-import me.aurium.tick.docker.DockerSource;
-import me.aurium.tick.docker.DockerSourceProvider;
+import me.aurium.tick.docker.source.ClientOptions;
+import me.aurium.tick.docker.source.DockerClientProducer;
+import me.aurium.tick.docker.source.DockerSource;
+import me.aurium.tick.docker.source.DockerSourceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

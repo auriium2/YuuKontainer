@@ -1,4 +1,4 @@
-package me.aurium.tick.docker.machine;
+package me.aurium.tick.docker.source.machine;
 
 public class ShellExecutionException extends RuntimeException{
 

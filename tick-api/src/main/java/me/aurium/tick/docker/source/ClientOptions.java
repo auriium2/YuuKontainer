@@ -1,4 +1,4 @@
-package me.aurium.tick.docker;
+package me.aurium.tick.docker.source;
 
 //TODO make this more useful
 public class ClientOptions {

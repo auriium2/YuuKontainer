@@ -9,6 +9,7 @@
         <module name="tick-full" />
         <module name="tick-rapid" />
         <module name="tick-api" />
+        <module name="tick-api-tests" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

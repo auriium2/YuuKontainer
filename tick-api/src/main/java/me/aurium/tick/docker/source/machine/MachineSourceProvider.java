@@ -1,7 +1,7 @@
-package me.aurium.tick.docker.machine;
+package me.aurium.tick.docker.source.machine;
 
-import me.aurium.tick.docker.DockerSource;
-import me.aurium.tick.docker.DockerSourceProvider;
+import me.aurium.tick.docker.source.DockerSource;
+import me.aurium.tick.docker.source.DockerSourceProvider;
 import org.apache.commons.lang.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class MachineSourceProvider implements DockerSourceProvider {
 
     private static final String DEFAULT = "default";
 
-    private final Logger logger = LoggerFactory.getLogger(MachineSourceProvider.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public MachineSourceProvider(String preferredDockerProvider) {
         this.preferredDockerProvider = preferredDockerProvider;
@@ -55,11 +55,11 @@ public class MachineSourceProvider implements DockerSourceProvider {
             if (executables.contains(preferredDockerProvider)) {
                 logger.info("Preferred docker instance found on DockerMachine! Using instance: " + preferredDockerProvider);
 
-                return Optional.of(new MachineDockerSource(executableName,preferredDockerProvider));
+                return Optional.of(new me.aurium.tick.docker.source.machine.MachineDockerSource(executableName,preferredDockerProvider));
             } else if (executables.contains(DEFAULT)) {
                 logger.info("Preferred docker instance was not found, using default instance!");
 
-                return Optional.of(new MachineDockerSource(executableName,DEFAULT));
+                return Optional.of(new me.aurium.tick.docker.source.machine.MachineDockerSource(executableName,DEFAULT));
             } else {
                 logger.error("No running docker was found!");
 

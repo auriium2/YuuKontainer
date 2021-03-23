@@ -1,7 +1,8 @@
 package me.aurium.tick.container;
 
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.CreateContainerResponse;
+import me.aurium.tick.container.container.TickContainer;
+import me.aurium.tick.container.terms.CreationTerms;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,21 +23,20 @@ public class ContainerManagerImpl implements ContainerManager {
     }
 
     @Override
-    public TickContainer produceContainer(CreationTerms terms) {
-        CreateContainerResponse rep = terms.creation(client);
-
-        TickContainer container = new ClientTickContainer(client, rep.getId(), options);
-
-        tickContainers.add(container);
-
-        return container;
-    }
-
-    @Override
     public void close() throws Exception {
         for (TickContainer container : tickContainers) {
             container.close(); //should closed containers remain in the set?
             // not the ones here but if a container is manually stopped. I think it should, but that's what reviews are for - another opinion
         }
+    }
+
+    @Override
+    public <T extends TickContainer> T produceContainer(CreationTerms<T> terms) {
+
+        T container = terms.creation(client,options);
+
+        tickContainers.add(container);
+
+        return container;
     }
 }

@@ -1,6 +1,6 @@
-package me.aurium.tick.docker.machine;
+package me.aurium.tick.docker.source.machine;
 
-import me.aurium.tick.docker.DockerSource;
+import me.aurium.tick.docker.source.DockerSource;
 import org.zeroturnaround.exec.ProcessExecutor;
 import org.zeroturnaround.exec.ProcessResult;
 
