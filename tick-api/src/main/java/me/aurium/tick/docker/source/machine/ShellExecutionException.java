@@ -2,11 +2,11 @@ package me.aurium.tick.docker.source.machine;
 
 public class ShellExecutionException extends RuntimeException{
 
-    ShellExecutionException(Throwable throwable) {
+    public ShellExecutionException(Throwable throwable) {
         super(throwable);
     }
 
-    ShellExecutionException(String string) {
+    public ShellExecutionException(String string) {
         super(string);
     }
 

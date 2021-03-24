@@ -45,7 +45,7 @@ public class MachineSourceProvider implements DockerSourceProvider {
 
         try {
             ProcessResult result = new ProcessExecutor()
-                    .command(executableName,"ls","-q", "--filter state=\"Running\"")
+                    .command(executableName,"ls","-q", "--filter", "state=Running")
                     .readOutput(true)
                     .exitValueNormal()
                     .execute();

@@ -9,9 +9,10 @@
     <version>1.0.0</version>
 
     <modules>
-        <module>tick-full</module>
-        <module>tick-rapid</module>
         <module>tick-api</module>
+        <module>tick-rapid</module>
+        <module>tick-integrated</module>
+        <module>tick-tests</module>
     </modules>
 
     <properties>
