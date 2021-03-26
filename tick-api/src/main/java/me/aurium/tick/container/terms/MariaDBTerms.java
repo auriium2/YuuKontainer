@@ -13,6 +13,8 @@ import me.aurium.tick.docker.source.DockerLocation;
  * mariadb
  *
  * external port is the exposed port of the mariadb container, but still
+ *
+ * TODO: image searching and guaruntees
  */
 public class MariaDBTerms implements JDBCTerms {
 

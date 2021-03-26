@@ -23,7 +23,7 @@ public class PopulateGoalMojo extends AbstractTickMojo{
     public void execute() throws MojoFailureException {
         TickFactory factory = new CommonTickFactory(
                 new MachineSourceProvider(defaultDockerName),
-                new ClientOptions(false),
+                new ClientOptions(true),
                 new ContainerOptions(300)
         );
 
@@ -41,7 +41,9 @@ public class PopulateGoalMojo extends AbstractTickMojo{
         try (Tick tick = factory.produce()) {
             JDBCContainer container = tick.getManager().produceContainer(terms);
 
+            container.start();
 
+            container.close(); //test to see if shit breaks
 
 
 

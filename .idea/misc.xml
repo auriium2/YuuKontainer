@@ -11,6 +11,7 @@
       <set>
         <option value="$PROJECT_DIR$/tick-api-tests/pom.xml" />
         <option value="$PROJECT_DIR$/tick-easy/pom.xml" />
+        <option value="$PROJECT_DIR$/tick-full/pom.xml" />
         <option value="$PROJECT_DIR$/tick-simpl/pom.xml" />
         <option value="$PROJECT_DIR$/tick-simple/pom.xml" />
       </set>

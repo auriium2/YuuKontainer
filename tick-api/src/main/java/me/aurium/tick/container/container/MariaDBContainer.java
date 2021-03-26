@@ -49,12 +49,19 @@ public class MariaDBContainer implements JDBCContainer {
     @Override
     public void stop() {
         //TODO crawl the docs because i can't find anything on idempotcy there @a248
+        //TODO guaruntees
 
         client.stopContainerCmd(containerID).withTimeout(options.getContainerShutdownWait()).exec();
     }
 
     @Override
+    public void remove() {
+        client.removeContainerCmd(containerID).exec();
+    }
+
+    @Override
     public void close() throws Exception {
         this.stop();
+        this.remove();
     }
 }

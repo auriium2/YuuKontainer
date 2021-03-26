@@ -42,4 +42,9 @@ public class ContainerManagerImpl implements ContainerManager {
 
         return container;
     }
+
+    @Override
+    public DockerClient debugClient() {
+        return client;
+    }
 }
