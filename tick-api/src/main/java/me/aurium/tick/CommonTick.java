@@ -11,11 +11,6 @@ public class CommonTick implements Tick{
     }
 
     @Override
-    public void close() throws Exception {
-        manager.close();
-    }
-
-    @Override
     public ContainerManager getManager() {
         return manager;
     }

@@ -1,7 +1,7 @@
 package me.aurium.tick.integrated;
 
 import me.aurium.tick.container.terms.JDBCTerms;
-import me.aurium.tick.container.terms.MariaDBTerms;
+import me.aurium.tick.container.terms.mariadb.MariaDBTerms;
 
 public class MariaDBInitializer implements Initializer{
     @Override

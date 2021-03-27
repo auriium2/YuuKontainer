@@ -26,7 +26,7 @@ public class CommonTickFactory implements TickFactory{
 
     @Override
     public Tick produce() {
-        logger.debug("Attempting to produce a Tick! Producing DockerClient now...");
+        logger.info("Attempting to produce a Tick! Producing DockerClient now...");
 
         DockerSource source = provider.source().orElseThrow(InvalidProviderException::new);
 
@@ -35,11 +35,11 @@ public class CommonTickFactory implements TickFactory{
         DockerLocation location = new DockerLocationImpl(source.getSourceIP(), source.getSourceURL(), source.getSSLConfig()); //cache
         DockerClient client = new DockerClientProducer(location).produce(clientOptions);
 
-        logger.debug("DockerClient successfully initialized, setting up a ContainerManager...");
+        logger.info("DockerClient successfully initialized, setting up a ContainerManager...");
 
         ContainerManager manager = new ContainerManagerImpl(location, client,containerOptions);
 
-        logger.debug("ContainerManager set up correctly! Tick is now ready for use!");
+        logger.info("ContainerManager set up correctly! Tick is now ready for use!");
 
         return new CommonTick(manager);
     }

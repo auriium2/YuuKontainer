@@ -38,17 +38,14 @@ public class PopulateGoalMojo extends AbstractTickMojo{
 
         JDBCTerms terms = init.getTerms(dbName,dbUsername,dbPassword,dbPort);
 
-        try (Tick tick = factory.produce()) {
-            JDBCContainer container = tick.getManager().produceContainer(terms);
-
-            container.start();
-
-            container.close(); //test to see if shit breaks
-
+        Tick tick = factory.produce();
+        try (JDBCContainer container = tick.getManager().startupContainer(terms)) {
+            logger.info(container.getJDBCUrl());
 
 
         } catch (Exception e) {
-            logger.error("Error occurred during tick lifecycle: ",e);
+            logger.error("Error occured during lifecycle: ", e);
         }
+
     }
 }

@@ -8,11 +8,6 @@ package me.aurium.tick.container.container;
 public interface TickContainer extends AutoCloseable {
 
     String managedContainerName();
-
     String containerID();
-
-    void start();
-    void stop();
-    void remove();
 
 }

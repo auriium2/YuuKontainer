@@ -3,37 +3,38 @@ package me.aurium.tick.container.container;
 import com.github.dockerjava.api.DockerClient;
 import me.aurium.tick.container.ContainerOptions;
 import me.aurium.tick.container.JDBCUrlBuilder;
-import me.aurium.tick.container.terms.MariaDBTerms;
+import me.aurium.tick.container.terms.mariadb.JDBCConfig;
 import me.aurium.tick.docker.source.DockerLocation;
 
 public class MariaDBContainer implements JDBCContainer {
 
     private final DockerLocation location;
     private final DockerClient client;
+
     private final ContainerOptions options;
     private final String containerID;
-    private final MariaDBTerms terms;
+    private final JDBCConfig config;
 
-    public MariaDBContainer(DockerLocation location, DockerClient client, ContainerOptions options, String containerID, MariaDBTerms terms) {
+    public MariaDBContainer(DockerLocation location, DockerClient client, ContainerOptions options, String containerID, JDBCConfig config) {
         this.location = location;
         this.client = client;
         this.options = options;
         this.containerID = containerID;
-        this.terms = terms;
+        this.config = config;
     }
 
     @Override
     public String getJDBCUrl() {
         return new JDBCUrlBuilder()
-                .withDBName(terms.databaseName())
+                .withDBName(config.getDatabaseName())
                 .withDriver("mariadb")
                 .withIP(location.getIp())
-                .withPort(terms.externalPort()).build();
+                .withPort(config.getPortBinding()).build();
     }
 
     @Override
     public String managedContainerName() {
-        return terms.containerName();
+        return config.getContainerName();
     }
 
     @Override
@@ -42,26 +43,8 @@ public class MariaDBContainer implements JDBCContainer {
     }
 
     @Override
-    public void start() {
-        client.startContainerCmd(containerID).exec();
-    }
-
-    @Override
-    public void stop() {
-        //TODO crawl the docs because i can't find anything on idempotcy there @a248
-        //TODO guaruntees
-
-        client.stopContainerCmd(containerID).withTimeout(options.getContainerShutdownWait()).exec();
-    }
-
-    @Override
-    public void remove() {
-        client.removeContainerCmd(containerID).exec();
-    }
-
-    @Override
     public void close() throws Exception {
-        this.stop();
-        this.remove();
+        client.stopContainerCmd(containerID).withTimeout(options.getContainerShutdownWait()).exec();
+        client.removeContainerCmd(containerID).exec();
     }
 }
