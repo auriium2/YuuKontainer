@@ -7,14 +7,11 @@ import com.github.dockerjava.api.model.HostConfig;
 import me.aurium.tick.container.container.TickContainer;
 import me.aurium.tick.container.terms.CreationTerms;
 import me.aurium.tick.container.terms.termParts.Arguments;
-import me.aurium.tick.container.terms.termParts.ArgumentsObject;
+import me.aurium.tick.docker.image.PullStrategy;
 import me.aurium.tick.docker.source.DockerLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 public class ContainerManagerImpl implements ContainerManager {
@@ -26,11 +23,13 @@ public class ContainerManagerImpl implements ContainerManager {
     private final DockerLocation location;
     private final DockerClient client;
 
+    private final PullStrategy strategy;
     private final ContainerOptions options;
 
-    public ContainerManagerImpl(DockerLocation location, DockerClient client, ContainerOptions options) {
+    public ContainerManagerImpl(DockerLocation location, DockerClient client, PullStrategy strategy, ContainerOptions options) {
         this.location = location;
         this.client = client;
+        this.strategy = strategy;
         this.options = options;
     }
 
@@ -38,14 +37,15 @@ public class ContainerManagerImpl implements ContainerManager {
     public <T extends TickContainer> T startupContainer(CreationTerms<T> termActual) throws InterruptedException {
         Arguments terms = termActual.creationArguments();
 
-        logger.info("(TICK) Attempting to pull!");
+        if (strategy.shouldLoad(terms.getDockerImageName())) {
+            logger.info("(TICK) Attempting to pull image with name: " + terms.getDockerImageName());
 
-        client.pullImageCmd(terms.getDockerImageName()).exec(new PullImageResultCallback())
-                .awaitCompletion(30,TimeUnit.SECONDS); //blocking
+            strategy.loadBlocking(terms.getDockerImageName());
 
-        logger.info("(TICK) pull finished!");
+            logger.info("(TICK) image load finished!");
+        }
 
-        logger.info(client.versionCmd().exec().getVersion());
+        logger.info("(TICK) Initializing container with image: " + terms.getDockerImageName() + "! Assuming image is present!");
 
         CreateContainerResponse response = client.createContainerCmd(terms.getDockerImageName())
                 .withName(terms.getCreationName())
