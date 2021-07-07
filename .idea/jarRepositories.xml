@@ -7,6 +7,16 @@
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="central-repo" />
+      <option name="name" value="aurium-libs-release" />
+      <option name="url" value="https://repo.auriium.xyz/releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="snapshots-repo" />
+      <option name="name" value="aurium-libs-snapshot" />
+      <option name="url" value="https://repo.auriium.xyz/snapshots" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="aurium" />
       <option name="name" value="aurium" />
       <option name="url" value="https://repo.repsy.io/mvn/elytraforce/default" />

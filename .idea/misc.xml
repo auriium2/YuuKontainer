@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/tick-api/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -12,8 +13,10 @@
         <option value="$PROJECT_DIR$/tick-api-tests/pom.xml" />
         <option value="$PROJECT_DIR$/tick-easy/pom.xml" />
         <option value="$PROJECT_DIR$/tick-full/pom.xml" />
+        <option value="$PROJECT_DIR$/tick-rapid/pom.xml" />
         <option value="$PROJECT_DIR$/tick-simpl/pom.xml" />
         <option value="$PROJECT_DIR$/tick-simple/pom.xml" />
+        <option value="$PROJECT_DIR$/tick-tests/pom.xml" />
       </set>
     </option>
   </component>
