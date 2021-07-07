@@ -75,7 +75,7 @@ public class MachineSourceProvider extends SimpleSourceProvider {
     }
 
     @Override
-    public Pair makeURI(ClientOptions options) throws SourceProvideException {
+    public URI makeURI(ClientOptions options) throws SourceProvideException {
 
         String preferredProvider = options.getPreferredDockerMachineName();
 
@@ -105,13 +105,7 @@ public class MachineSourceProvider extends SimpleSourceProvider {
                     .exitValueNormal()
                     .execute().outputString().replaceAll("\n","");*/
 
-            String ip = new ProcessExecutor()
-                    .command(executableName,"ip", toUse)
-                    .readOutput(true)
-                    .exitValueNormal()
-                    .execute().outputString().replaceAll("\n","");
-
-            return new Pair(ip,null);
+            return null;
 
 
         } catch (IOException | InterruptedException | TimeoutException e) {
