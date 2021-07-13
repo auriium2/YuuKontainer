@@ -1,4 +1,4 @@
-package xyz.auriium.tick.integrated;
+package xyz.auriium.tick.plugin;
 
 public enum CommonInits {
 

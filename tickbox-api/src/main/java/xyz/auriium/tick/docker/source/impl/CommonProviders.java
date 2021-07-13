@@ -25,6 +25,27 @@ public class CommonProviders {
         return this;
     }
 
+    /**
+     * Attempts to find a DockerProvider with the name given, or returns a default name and logs.
+     * @param preferred the preferred Provider identifier to use
+     * @return a provider
+     * @throws IllegalStateException if no providers can be found
+     */
+    public DockerSourceProvider find(String preferred) {
+        for (DockerSourceProvider provider : providers) {
+            if (provider.name().equalsIgnoreCase(preferred)) {
+                return provider;
+            }
+        }
+
+        return find();
+    }
+
+    /**
+     * Attempts to find a DockerProvider using the first available highest priority provider
+     * @return a provider
+     * @throws IllegalStateException if no providers can be found.
+     */
     public DockerSourceProvider find() {
 
         for (DockerSourceProvider provider : providers.stream()
@@ -36,7 +57,7 @@ public class CommonProviders {
             if (result.isApplicable()) {
                 return provider;
             } else {
-                logger.warn(String.format("Attempt to produce valid DockerClient failure for provider [%s], Reason: [%s]", provider.name(), result.getReason()));
+                logger.warn(String.format("Attempt to produce valid DockerClient failure \nwith provider [%s], \nReason: [%s]", provider.name(), result.getReason()));
             }
         }
 

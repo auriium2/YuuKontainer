@@ -2,10 +2,7 @@ package xyz.auriium.tick;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Version;
-import xyz.auriium.tick.container.ContainerManager;
-import xyz.auriium.tick.container.ContainerManagerImpl;
 import xyz.auriium.tick.container.ContainerOptions;
-import xyz.auriium.tick.docker.DockerLocationImpl;
 import xyz.auriium.tick.docker.image.PullStrategyProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,12 +39,8 @@ public class CommonTickFactory implements TickFactory{
                 "Docker version: " + dockerVersion.getVersion() + "\n" +
                 "OS: " + dockerVersion.getOperatingSystem());
 
-        logger.info("(TICK) Setting up a ContainerManager...");
-
-        ContainerManager manager = new ContainerManagerImpl(source, client, strategy.getStrategy(client), containerOptions);
-
         logger.info("(TICK) ContainerManager set up correctly! Tick is now ready for use!");
 
-        return new CommonTick(manager);
+        return new CommonTick(source, client, strategy.getStrategy(client), containerOptions);
     }
 }

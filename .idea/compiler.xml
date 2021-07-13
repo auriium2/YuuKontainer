@@ -8,16 +8,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="tickbox-integrated-tests" />
         <module name="tickbox-api" />
-        <module name="tickbox-integrated" />
+        <module name="tickbox-plugin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="tick-api" target="11" />
+      <module name="tick-api" target="1.8" />
       <module name="tick-api-tests" target="11" />
       <module name="tick-easy" target="1.8" />
-      <module name="tick-full" target="11" />
+      <module name="tick-full" target="1.8" />
       <module name="tick-integrated" target="11" />
-      <module name="tick-rapid" target="11" />
+      <module name="tick-rapid" target="1.8" />
       <module name="tick-simpl" target="11" />
       <module name="tick-simple" target="1.8" />
       <module name="tick-tests" target="11" />

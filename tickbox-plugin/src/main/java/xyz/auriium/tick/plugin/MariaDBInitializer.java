@@ -1,4 +1,4 @@
-package xyz.auriium.tick.integrated;
+package xyz.auriium.tick.plugin;
 
 import xyz.auriium.tick.container.terms.JDBCTerms;
 import xyz.auriium.tick.container.terms.mariadb.MariaDBTerms;

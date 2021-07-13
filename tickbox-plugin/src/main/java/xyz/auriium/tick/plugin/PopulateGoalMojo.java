@@ -1,4 +1,4 @@
-package xyz.auriium.tick.integrated;
+package xyz.auriium.tick.plugin;
 
 import xyz.auriium.tick.CommonTickFactory;
 import xyz.auriium.tick.Tick;

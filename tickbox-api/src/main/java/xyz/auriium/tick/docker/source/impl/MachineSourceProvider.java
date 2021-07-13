@@ -19,6 +19,12 @@ import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
+/**
+ * DO NOT USE THIS as it does not currently work correctly lmao
+ *
+ * (Startup works, connection does not.)
+ */
+@Deprecated
 public class MachineSourceProvider extends SimpleSourceProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(MachineSourceProvider.class);
@@ -99,13 +105,13 @@ public class MachineSourceProvider extends SimpleSourceProvider {
 
             logger.info(String.format("Using docker-machine with system %s (selected machine %s). If these do not match machine %s was likely ineligible for use.", toUse, preferredProvider, preferredProvider));
 
-            /*URI url = new ProcessExecutor()
+            String url = new ProcessExecutor()
                     .command(executableName,"url", toUse)
                     .readOutput(true)
                     .exitValueNormal()
-                    .execute().outputString().replaceAll("\n","");*/
+                    .execute().outputString().replaceAll("\n","");
 
-            return null;
+            return URI.create(url);
 
 
         } catch (IOException | InterruptedException | TimeoutException e) {
