@@ -12,35 +12,69 @@ public class CommonTickFactory implements TickFactory{
 
     private final DockerSourceProvider provider;
     private final PullStrategyProvider<?> strategy;
-    private final ClientOptions clientOptions;
+    private final CreationOptions creationOptions;
     private final ContainerOptions containerOptions;
 
-    private final Logger logger = LoggerFactory.getLogger(CommonTickFactory.class);
+    private final Logger logger = LoggerFactory.getLogger("(TICK | FACTORY)");
 
-    //TODO builder
-    public CommonTickFactory(DockerSourceProvider provider, PullStrategyProvider<?> strategy, ClientOptions clientOptions, ContainerOptions containerOptions) {
+    /**
+     * Create a new TickFactory that initializes Ticks with default specs
+     * @param provider the docker source provider to use in order to get a DockerClient instance
+     * @param strategy the pull strategy to use in order to handle pulling new images
+     * @param creationOptions client creation options that pertain to how {@param provider} can be called
+     * @param containerOptions options that are used once a client is created and a container is required.
+     */
+    public CommonTickFactory(DockerSourceProvider provider, PullStrategyProvider<?> strategy, CreationOptions creationOptions, ContainerOptions containerOptions) {
         this.provider = provider;
         this.strategy = strategy;
-        this.clientOptions = clientOptions;
+        this.creationOptions = creationOptions;
         this.containerOptions = containerOptions;
     }
 
-    @Override
-    public Tick produce() throws SourceProvideException {
-        logger.info("(TICK) Attempting to produce a Tick! Producing DockerClient now...");
+    /**
+     * Creates a new TickFactory with default settings
+     * @param provider the docker source provider to use in order to get a DockerClient instance
+     * @param strategy the pull strategy to use in order to handle pulling new images
+     */
+    public CommonTickFactory(DockerSourceProvider provider, PullStrategyProvider<?> strategy) {
+        this(provider,strategy, CreationOptions.defaults(),ContainerOptions.defaults());
+    }
 
-        DockerSource source = provider.source(clientOptions);
+    @Override
+    public Tick produce() {
+        logger.info("Initializing tick startup, performing DockerSourceProvider pre-check!");
+
+        ApplicableResult result = provider.isApplicable();
+
+        if (!result.isApplicable()) {
+            logger.error(String.format("Attempt to check valid DockerClient using [%s] failed!", provider.name()));
+            logger.error(String.format("Reason: [%s]", result.getReason()));
+            throw new InvalidProviderException();
+        }
+
+        logger.info("Pre-check successful! Attempting to produce a DockerClient now.");
+
+        DockerSource source = provider.source(creationOptions);
         DockerClient client = source.getClient();
+
+        logger.info("Client produced successfully! Executing final startup activities...");
+
+        //TODO test the dockersource - run multiple client commands and a test startup/shutdown on it
+        if (creationOptions.isUsePostCreationTest()) {
+            logger.debug("Test would occur here!");
+        }
 
         Version dockerVersion = client.versionCmd().exec();
 
-        logger.info("(TICK) DockerClient startup successful!" +
+        logger.info("(DockerClient startup successful!" + "\n" +
                 "API version: " + dockerVersion.getApiVersion() + "\n" +
                 "Docker version: " + dockerVersion.getVersion() + "\n" +
                 "OS: " + dockerVersion.getOperatingSystem());
 
-        logger.info("(TICK) ContainerManager set up correctly! Tick is now ready for use!");
-
         return new CommonTick(source, client, strategy.getStrategy(client), containerOptions);
+
+
+
+
     }
 }

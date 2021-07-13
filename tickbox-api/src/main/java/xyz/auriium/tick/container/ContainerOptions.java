@@ -1,6 +1,8 @@
 package xyz.auriium.tick.container;
 
-//todo make this more useful
+/**
+ * Options that pertain to the creation of containers
+ */
 public class ContainerOptions {
 
     private final int containerShutdownWait;
@@ -11,5 +13,9 @@ public class ContainerOptions {
 
     public int getContainerShutdownWait() {
         return containerShutdownWait;
+    }
+
+    public static ContainerOptions defaults() {
+        return new ContainerOptions(500);
     }
 }

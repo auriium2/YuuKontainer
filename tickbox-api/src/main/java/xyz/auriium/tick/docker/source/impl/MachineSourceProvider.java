@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 @Deprecated
 public class MachineSourceProvider extends SimpleSourceProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(MachineSourceProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger("(TICK | DOCKER-MACHINE PROVIDER)");
     private static final String DEFAULT = "default";
 
     @Override
@@ -81,7 +81,7 @@ public class MachineSourceProvider extends SimpleSourceProvider {
     }
 
     @Override
-    public URI makeURI(ClientOptions options) throws SourceProvideException {
+    public URI makeURI(CreationOptions options) {
 
         String preferredProvider = options.getPreferredDockerMachineName();
 
@@ -92,7 +92,7 @@ public class MachineSourceProvider extends SimpleSourceProvider {
             executableName="docker-machine.exe";
         }
 
-        if (!executableExists(executableName)) throw new SourceProvideException("DockerMachine executable not found on this system!");
+        if (!executableExists(executableName)) throw new IllegalStateException("DockerMachine executable not found on this system!");
 
         try {
             ProcessResult result = new ProcessExecutor()
@@ -101,7 +101,7 @@ public class MachineSourceProvider extends SimpleSourceProvider {
                     .exitValueNormal()
                     .execute();
 
-            String toUse = getToUse(preferredProvider, List.of(result.outputUTF8().split("\n"))).orElseThrow(() -> new SourceProvideException("No default machine present on this system!"));
+            String toUse = getToUse(preferredProvider, List.of(result.outputUTF8().split("\n"))).orElseThrow(() -> new IllegalStateException("No default machine present on this system!"));
 
             logger.info(String.format("Using docker-machine with system %s (selected machine %s). If these do not match machine %s was likely ineligible for use.", toUse, preferredProvider, preferredProvider));
 
@@ -115,7 +115,7 @@ public class MachineSourceProvider extends SimpleSourceProvider {
 
 
         } catch (IOException | InterruptedException | TimeoutException e) {
-            throw new ShellExecutionException(e);
+            throw new IllegalStateException(e);
         }
 
     }

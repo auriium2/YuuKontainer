@@ -8,9 +8,9 @@ public interface DockerSourceProvider {
     /**
      * Attempts to generate a DockerSource. Typically calls {@link #isApplicable()} internally.
      * @return a docker source.
-     * @throws SourceProvideException if an error occurs attempting to generate the dockersource outlined.
+     * @throws IllegalStateException if an error occurs attempting to generate the dockersource outlined.
      */
-    DockerSource source(ClientOptions options) throws SourceProvideException;
+    DockerSource source(CreationOptions options);
 
     /**
      * Checks whether or not the DockerSourceProvider can effectively provide a DockerSource

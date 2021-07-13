@@ -14,7 +14,7 @@ import xyz.auriium.tick.docker.source.DockerSource;
 
 public class CommonTick implements Tick{
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger("(TICK | MANAGER)");
 
     private final DockerSource location;
     private final DockerClient client;
@@ -34,14 +34,14 @@ public class CommonTick implements Tick{
         Arguments terms = termActual.creationArguments();
 
         if (strategy.shouldLoad(terms.getDockerImageName())) {
-            logger.info("(TICK) Attempting to pull image with name: " + terms.getDockerImageName());
+            logger.info("Attempting to pull image with name: " + terms.getDockerImageName());
 
-            strategy.loadBlocking(terms.getDockerImageName());
+            strategy.loadBlocking(terms.getDockerImageName()); //todo
 
-            logger.info("(TICK) image load finished!");
+            logger.info("Image load finished!");
         }
 
-        logger.info("(TICK) Initializing container with image: " + terms.getDockerImageName() + "! Assuming image is present!");
+        logger.info("Initializing container with image: " + terms.getDockerImageName() + "! Assuming image is present!");
 
         CreateContainerResponse response = client.createContainerCmd(terms.getDockerImageName())
                 .withName(terms.getCreationName())

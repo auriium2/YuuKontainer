@@ -26,7 +26,7 @@ public class LoggingPullResultCallback extends PullImageResultCallback {
     private final Map<String, Long> totalSizes = new HashMap<>();
     private final Map<String, Long> currentSizes = new HashMap<>();
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger("(TICK | IMAGE PULL)");
 
     private boolean completed = false;
 

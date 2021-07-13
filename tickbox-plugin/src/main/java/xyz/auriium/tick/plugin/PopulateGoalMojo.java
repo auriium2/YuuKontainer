@@ -7,7 +7,7 @@ import xyz.auriium.tick.container.ContainerOptions;
 import xyz.auriium.tick.container.container.JDBCContainer;
 import xyz.auriium.tick.container.terms.JDBCTerms;
 import xyz.auriium.tick.docker.image.CachedPullStrategyProvider;
-import xyz.auriium.tick.docker.source.ClientOptions;
+import xyz.auriium.tick.docker.source.CreationOptions;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -24,7 +24,7 @@ public class PopulateGoalMojo extends AbstractTickMojo{
     public void execute() throws MojoFailureException {
         TickFactory factory = new CommonTickFactory(
                 new MachineSourceProvider(defaultDockerName),
-                new CachedPullStrategyProvider(), new ClientOptions(true, defaultDockerMachine),
+                new CachedPullStrategyProvider(), new CreationOptions(usePostCreationTest, true),
                 new ContainerOptions(300)
         );
 

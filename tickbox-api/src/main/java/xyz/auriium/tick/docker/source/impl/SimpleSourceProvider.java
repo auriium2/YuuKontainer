@@ -6,10 +6,9 @@ import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.core.LocalDirectorySSLConfig;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
-import xyz.auriium.tick.docker.source.ClientOptions;
+import xyz.auriium.tick.docker.source.CreationOptions;
 import xyz.auriium.tick.docker.source.DockerSource;
 import xyz.auriium.tick.docker.source.DockerSourceProvider;
-import xyz.auriium.tick.docker.source.SourceProvideException;
 
 import java.net.URI;
 import java.nio.file.Paths;
@@ -17,7 +16,7 @@ import java.nio.file.Paths;
 public abstract class SimpleSourceProvider implements DockerSourceProvider {
 
     @Override
-    public DockerSource source(ClientOptions options) throws SourceProvideException {
+    public DockerSource source(CreationOptions options) {
 
         URI pair = makeURI(options);
 
@@ -36,6 +35,6 @@ public abstract class SimpleSourceProvider implements DockerSourceProvider {
         return new DockerSourceImpl(pair, DockerClientImpl.getInstance(config,client));
     }
 
-    public abstract URI makeURI(ClientOptions options) throws SourceProvideException;
+    public abstract URI makeURI(CreationOptions options);
 
 }

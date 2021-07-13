@@ -7,6 +7,6 @@ import xyz.auriium.tick.docker.source.SourceProvideException;
  */
 public interface TickFactory {
 
-    Tick produce() throws SourceProvideException;
+    Tick produce();
 
 }
