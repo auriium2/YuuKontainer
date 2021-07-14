@@ -15,8 +15,8 @@
 
     <modules>
         <module>tickbox-api</module>
-        <module>tickbox-integrated</module>
-        <module>tickbox-integrated-tests</module>
+        <module>tickbox-plugin</module>
+        <module>tickbox-plugin-tests</module>
     </modules>
 
     <properties>

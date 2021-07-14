@@ -6,7 +6,7 @@ public interface DockerSourceProvider {
     Integer priority();
 
     /**
-     * Attempts to generate a DockerSource. Typically calls {@link #isApplicable()} internally.
+     * Attempts to generate a DockerSource. Do not call this without calling {@link #isApplicable()}
      * @return a docker source.
      * @throws IllegalStateException if an error occurs attempting to generate the dockersource outlined.
      */

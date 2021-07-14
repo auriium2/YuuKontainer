@@ -13,6 +13,9 @@ import xyz.auriium.tick.docker.source.DockerSourceProvider;
 import java.net.URI;
 import java.nio.file.Paths;
 
+/**
+ * Client abstraction to allow source providers to only provide a URI
+ */
 public abstract class SimpleSourceProvider implements DockerSourceProvider {
 
     @Override

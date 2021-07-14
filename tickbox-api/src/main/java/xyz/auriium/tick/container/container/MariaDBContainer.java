@@ -43,7 +43,7 @@ public class MariaDBContainer implements JDBCContainer {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         client.stopContainerCmd(containerID).withTimeout(options.getContainerShutdownWait()).exec();
         client.removeContainerCmd(containerID).exec();
     }

@@ -12,6 +12,8 @@ import xyz.auriium.tick.container.terms.termParts.Arguments;
 import xyz.auriium.tick.docker.image.PullStrategy;
 import xyz.auriium.tick.docker.source.DockerSource;
 
+import java.io.IOException;
+
 public class CommonTick implements Tick{
 
     private final Logger logger = LoggerFactory.getLogger("(TICK | MANAGER)");
@@ -27,6 +29,11 @@ public class CommonTick implements Tick{
         this.client = client;
         this.strategy = strategy;
         this.options = options;
+    }
+
+    @Override
+    public DockerSource getSource() {
+        return location;
     }
 
     @Override
@@ -54,5 +61,10 @@ public class CommonTick implements Tick{
         client.startContainerCmd(response.getId()).exec();
 
         return termActual.creation(location,client,options,response.getId());
+    }
+
+    @Override
+    public void close() throws IOException {
+
     }
 }

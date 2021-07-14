@@ -30,6 +30,12 @@ public class MachineSourceProvider extends SimpleSourceProvider {
     private static final Logger logger = LoggerFactory.getLogger("(TICK | DOCKER-MACHINE PROVIDER)");
     private static final String DEFAULT = "default";
 
+    private final String preferredName;
+
+    public MachineSourceProvider(String preferredName) {
+        this.preferredName = preferredName;
+    }
+
     @Override
     public String name() {
         return "MachineSourceProvider";
@@ -83,8 +89,6 @@ public class MachineSourceProvider extends SimpleSourceProvider {
     @Override
     public URI makeURI(CreationOptions options) {
 
-        String preferredProvider = options.getPreferredDockerMachineName();
-
         logger.info("Attempting to produce DockerSource using docker machine commandline!");
 
         String executableName = "docker-machine";
@@ -101,9 +105,9 @@ public class MachineSourceProvider extends SimpleSourceProvider {
                     .exitValueNormal()
                     .execute();
 
-            String toUse = getToUse(preferredProvider, List.of(result.outputUTF8().split("\n"))).orElseThrow(() -> new IllegalStateException("No default machine present on this system!"));
+            String toUse = getToUse(preferredName, List.of(result.outputUTF8().split("\n"))).orElseThrow(() -> new IllegalStateException("No default machine present on this system!"));
 
-            logger.info(String.format("Using docker-machine with system %s (selected machine %s). If these do not match machine %s was likely ineligible for use.", toUse, preferredProvider, preferredProvider));
+            logger.info(String.format("Using docker-machine with system %s (selected machine %s). If these do not match machine %s was likely ineligible for use.", toUse, preferredName, preferredName));
 
             String url = new ProcessExecutor()
                     .command(executableName,"url", toUse)
