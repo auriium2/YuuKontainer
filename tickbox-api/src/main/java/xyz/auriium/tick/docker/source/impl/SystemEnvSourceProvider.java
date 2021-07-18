@@ -1,6 +1,7 @@
 package xyz.auriium.tick.docker.source.impl;
 
 import com.github.dockerjava.core.DefaultDockerClientConfig;
+import xyz.auriium.tick.container.CreationOptions;
 import xyz.auriium.tick.docker.source.*;
 
 import java.net.URI;

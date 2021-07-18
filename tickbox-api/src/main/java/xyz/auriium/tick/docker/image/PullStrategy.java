@@ -1,9 +1,17 @@
 package xyz.auriium.tick.docker.image;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
+
 public interface PullStrategy {
 
     boolean shouldLoad(String dockerImageName);
-    void loadBlocking(String dockerImageName) throws InterruptedException; //TODO not blocking (This would be a hell of a lot
-    // easier if the docker-java api simply used futures and not this convoluted callback system)
+    void load(String dockerImageName);
+
+    default void loadIfRequired(String name) {
+        if (shouldLoad(name)) {
+            load(name);
+        }
+    }
 
 }

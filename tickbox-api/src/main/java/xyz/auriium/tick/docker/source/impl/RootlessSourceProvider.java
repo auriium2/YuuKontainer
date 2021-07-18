@@ -6,8 +6,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.auriium.tick.container.CreationOptions;
 import xyz.auriium.tick.docker.source.ApplicableResult;
-import xyz.auriium.tick.docker.source.CreationOptions;
 
 import java.net.URI;
 import java.nio.file.Files;

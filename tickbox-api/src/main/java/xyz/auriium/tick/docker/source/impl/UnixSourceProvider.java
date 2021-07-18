@@ -1,13 +1,12 @@
 package xyz.auriium.tick.docker.source.impl;
 
 import org.apache.commons.lang.SystemUtils;
+import xyz.auriium.tick.container.CreationOptions;
 import xyz.auriium.tick.docker.source.ApplicableResult;
-import xyz.auriium.tick.docker.source.CreationOptions;
 
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**

@@ -6,7 +6,7 @@ import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.core.LocalDirectorySSLConfig;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
-import xyz.auriium.tick.docker.source.CreationOptions;
+import xyz.auriium.tick.container.CreationOptions;
 import xyz.auriium.tick.docker.source.DockerSource;
 import xyz.auriium.tick.docker.source.DockerSourceProvider;
 

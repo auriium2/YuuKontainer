@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zeroturnaround.exec.ProcessExecutor;
 import org.zeroturnaround.exec.ProcessResult;
+import xyz.auriium.tick.container.CreationOptions;
 import xyz.auriium.tick.docker.source.*;
 
 import java.io.File;

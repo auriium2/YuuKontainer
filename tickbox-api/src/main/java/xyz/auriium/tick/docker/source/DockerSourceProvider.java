@@ -1,5 +1,7 @@
 package xyz.auriium.tick.docker.source;
 
+import xyz.auriium.tick.container.CreationOptions;
+
 public interface DockerSourceProvider {
 
     String name();

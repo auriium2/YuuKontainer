@@ -12,6 +12,28 @@ multiple tests.)
 
 # Warning
 
+TickBox is not TestContainers. It isn't really even meant to fill the same role that testcontainers fills.
+Tick is a general purpose container creation library fit for use with JDBC. TestContainers is explicitly for testing.
+
+While Tick is also very useful in the testing environment, Tick explicitly avoids hackery and "magic code"
+that applications like TestContainers may implement in order to smoothen the testing experience.
+In TestContainers, various reflective hacks are done in order to allow containers to stop at the end of a JUnit test.
+A separate docker container is deployed just to make sure resources do not escape. (ryuk)
+
+In TestContainers, I try to explicitly avoid magic code/hackery/static abuse while also offering you the option of choice.
+TestContainers is brittle and static in design, and if you want to change something you'll have to dig deep into
+the archaic, bloated source code and edit it in yourself. If you want to change something in TickBox, write a new
+implementation of a single interface, or change a value in a configuration object.
+
+The biggest part of TestContainers for me that I attempt to give choice with is the ResourceReaper, 
+or in our case, the ResourceManager. In TestContainers, it is a static part of the program 
+that is essential, forcing Ryuk and runtime shutdown hooks down your throat. Here, you may choose
+if you would like the HookResourceManager (Features both automatic closing of containers on jvm shutdown
+as well as closing of containers and images when the main Tick instance is closed) or the EmptyResourceManager
+(which allows you to manually and explicitly remove resources left behind)
+
+# Unix Info
+
 If you want to use TickBox on Unix (MacOS or Linux) make sure that Docker is set up so it does
 not need the sudo command to run. TickBox (And TestContainers) use console commands internally
 to interact with Docker and if access to Docker is limited you will get an error like so:

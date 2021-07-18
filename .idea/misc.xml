@@ -17,6 +17,8 @@
         <option value="$PROJECT_DIR$/tick-simpl/pom.xml" />
         <option value="$PROJECT_DIR$/tick-simple/pom.xml" />
         <option value="$PROJECT_DIR$/tick-tests/pom.xml" />
+        <option value="$PROJECT_DIR$/tickbox-plugin-tests/pom.xml" />
+        <option value="$PROJECT_DIR$/tickbox-plugin/pom.xml" />
       </set>
     </option>
   </component>

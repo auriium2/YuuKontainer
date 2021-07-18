@@ -1,9 +1,14 @@
 package xyz.auriium.tick.docker.image;
 
 import com.github.dockerjava.api.DockerClient;
+import xyz.auriium.tick.centralized.ResourceManager;
 
-public interface PullStrategyProvider<T extends PullStrategy> {
+/**
+ * Provider that exists in order to allow user to specify a strategy without actually initializing one
+ * since client initialization is done tick-side
+ */
+public interface PullStrategyProvider {
 
-    T getStrategy(DockerClient client);
+    CommonPoolStrategy provide(DockerClient client, ResourceManager manager);
 
 }
