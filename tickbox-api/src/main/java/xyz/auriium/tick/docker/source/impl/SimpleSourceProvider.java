@@ -1,10 +1,7 @@
 package xyz.auriium.tick.docker.source.impl;
 
-import com.github.dockerjava.core.DefaultDockerClientConfig;
-import com.github.dockerjava.core.DockerClientConfig;
-import com.github.dockerjava.core.DockerClientImpl;
-import com.github.dockerjava.core.LocalDirectorySSLConfig;
-import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
+import com.github.dockerjava.core.*;
+import com.github.dockerjava.okhttp.OkDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
 import xyz.auriium.tick.container.CreationOptions;
 import xyz.auriium.tick.docker.source.DockerSource;
@@ -23,19 +20,18 @@ public abstract class SimpleSourceProvider implements DockerSourceProvider {
 
         URI pair = makeURI(options);
 
-        DockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder()
-                .withDockerHost(pair.getHost())
-                .withDockerTlsVerify(options.isWithTLS())
-                .withCustomSslConfig(new LocalDirectorySSLConfig(Paths.get(System.getProperty("user.home") + "/.docker/machine/certs/").toString())) //fucking weird ass shit,
-                // theres 2 sslconfigs and for some reason this only takes the deprecated version. Please advise.
+        DockerHttpClient client = new OkDockerHttpClient.Builder()
+                .dockerHost(pair)
+                .sslConfig(new LocalDirectorySSLConfig(Paths.get(System.getProperty("user.home") + "/.docker/machine/certs/").toString()))
                 .build();
 
-        DockerHttpClient client = new ApacheDockerHttpClient.Builder()
-                .dockerHost(config.getDockerHost())
-                .sslConfig(config.getSSLConfig())
-                .build();
+        DefaultDockerClientConfig.Builder configBuilder = DefaultDockerClientConfig.createDefaultConfigBuilder();
 
-        return new DockerSourceImpl(pair, DockerClientImpl.getInstance(config,client));
+        if (configBuilder.build().getApiVersion() == RemoteApiVersion.UNKNOWN_VERSION) {
+            configBuilder.withApiVersion(RemoteApiVersion.VERSION_1_30);
+        }
+
+        return new DockerSourceImpl(pair, DockerClientImpl.getInstance(configBuilder.withDockerHost(pair.toString()).build(),client));
     }
 
     public abstract URI makeURI(CreationOptions options);

@@ -33,6 +33,9 @@ public class WindowsSourceProvider extends SimpleSourceProvider {
 
     @Override
     public URI makeURI(CreationOptions options) {
+
+        System.out.println(URI.create(SOCKET_LOCATION));
+
         return URI.create(SOCKET_LOCATION);
     }
 }
