@@ -8,25 +8,34 @@ import xyz.auriium.tick.centralized.ResourceManager;
 
 import java.util.concurrent.TimeUnit;
 
-public class CommonPoolStrategy implements PullStrategy {
+public class DefaultPullStrategy implements PullStrategy {
 
-    private final Logger logger = LoggerFactory.getLogger("(TICK | Cached Blocking Strategy)");
+    private final Logger logger = LoggerFactory.getLogger("(TICK | DefaultPullStrategy)");
 
     private final DockerClient client;
     private final ResourceManager manager;
 
-    public CommonPoolStrategy(DockerClient client, ResourceManager manager) {
+    public DefaultPullStrategy(DockerClient client, ResourceManager manager) {
         this.client = client;
         this.manager = manager;
     }
 
     @Override
     public boolean shouldLoad(String dockerImageName) {
+
+        logger.debug("Testing whether image should be loaded...");
+
         try {
             client.inspectImageCmd(dockerImageName).exec();
-            return true;
-        } catch (NotFoundException exception) {
+
+            logger.debug("Image is present!");
+
             return false;
+        } catch (NotFoundException exception) {
+
+            logger.debug("Image is not present!");
+
+            return true;
         }
     }
 
@@ -37,7 +46,7 @@ public class CommonPoolStrategy implements PullStrategy {
 
         try {
 
-            client.pullImageCmd(dockerImageName).exec(new LoggingPullResultCallback())
+            client.pullImageCmd(dockerImageName).exec(new DefaultPullCallback(logger))
                     .awaitCompletion(30, TimeUnit.SECONDS);
 
             manager.submitImage(dockerImageName);
@@ -51,8 +60,8 @@ public class CommonPoolStrategy implements PullStrategy {
 
     public static class Provider implements PullStrategyProvider {
         @Override
-        public CommonPoolStrategy provide(DockerClient client, ResourceManager manager) {
-            return new CommonPoolStrategy(client, manager);
+        public DefaultPullStrategy provide(DockerClient client, ResourceManager manager) {
+            return new DefaultPullStrategy(client, manager);
         }
     }
 

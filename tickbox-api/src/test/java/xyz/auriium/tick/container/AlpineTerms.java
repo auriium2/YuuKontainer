@@ -4,17 +4,19 @@ import com.github.dockerjava.api.model.PortBinding;
 import xyz.auriium.tick.centralized.ResourceManager;
 import xyz.auriium.tick.docker.source.DockerSource;
 
-public class ArchTerms implements CreationTerms<ArchContainer>{
+import java.util.Optional;
+
+public class AlpineTerms implements CreationTerms<AlpineContainer>{
 
     private final String name;
 
-    public ArchTerms(String name) {
+    public AlpineTerms(String name) {
         this.name = name;
     }
 
     @Override
     public String getDockerImageName() {
-        return "archlinux:latest";
+        return "alpine:latest";
     }
 
     @Override
@@ -23,8 +25,8 @@ public class ArchTerms implements CreationTerms<ArchContainer>{
     }
 
     @Override
-    public PortBinding getBinding() {
-        return PortBinding.parse("");
+    public Optional<PortBinding> getBinding() {
+        return Optional.empty();
     }
 
     @Override
@@ -33,7 +35,7 @@ public class ArchTerms implements CreationTerms<ArchContainer>{
     }
 
     @Override
-    public ArchContainer instantiateHolder(DockerSource location, ResourceManager manager, String dockerID) {
-        return new ArchContainer(manager, name, dockerID);
+    public AlpineContainer instantiateHolder(DockerSource location, ResourceManager manager, String dockerID) {
+        return new AlpineContainer(manager, name, dockerID);
     }
 }

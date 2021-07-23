@@ -6,10 +6,12 @@ import org.junit.jupiter.api.Test;
 import xyz.auriium.tick.centralized.CommonTickFactory;
 import xyz.auriium.tick.centralized.HookResourceManager;
 import xyz.auriium.tick.centralized.Tick;
-import xyz.auriium.tick.docker.image.CommonPoolStrategy;
+import xyz.auriium.tick.container.AlpineTerms;
+import xyz.auriium.tick.container.TickContainer;
+import xyz.auriium.tick.docker.image.DefaultPullStrategy;
 import xyz.auriium.tick.docker.source.impl.WindowsSourceProvider;
 
-public class PrimeFunctionalityTest {
+public class WindowsProviderTest {
 
     private static volatile Tick tick;
 
@@ -18,12 +20,12 @@ public class PrimeFunctionalityTest {
         tick = new CommonTickFactory(
                 new HookResourceManager.Provider(true),
                 new WindowsSourceProvider(),
-                new CommonPoolStrategy.Provider()).produce();
+                new DefaultPullStrategy.Provider()).produce();
     }
 
     @Test
     public void test() {
-
+        TickContainer container = tick.createContainer(new AlpineTerms("the-cheese-man"));
     }
 
     @AfterAll

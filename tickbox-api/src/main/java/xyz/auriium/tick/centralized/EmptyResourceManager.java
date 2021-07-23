@@ -22,6 +22,11 @@ public class EmptyResourceManager implements ResourceManager{
     }
 
     @Override
+    public void destroyImage(String imageName) {
+
+    }
+
+    @Override
     public void stop() {
 
     }

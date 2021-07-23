@@ -5,13 +5,15 @@ import com.github.dockerjava.api.model.PortBinding;
 import xyz.auriium.tick.centralized.ResourceManager;
 import xyz.auriium.tick.docker.source.DockerSource;
 
+import java.util.Optional;
+
 public interface CreationTerms<T extends TickContainer>  {
 
     String getDockerImageName();
 
     String[] getParameters();
 
-    PortBinding getBinding();
+    Optional<PortBinding> getBinding();
 
     String getContainerName();
 

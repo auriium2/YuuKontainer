@@ -1,14 +1,15 @@
 package xyz.auriium.tick.container;
 
+import com.github.dockerjava.api.command.InspectContainerResponse;
 import xyz.auriium.tick.centralized.ResourceManager;
 
-public class ArchContainer implements TickContainer{
+public class AlpineContainer implements TickContainer{
 
     private final ResourceManager manager;
     private final String name;
     private final String id;
 
-    public ArchContainer(ResourceManager manager, String name, String id) {
+    public AlpineContainer(ResourceManager manager, String name, String id) {
         this.manager = manager;
         this.name = name;
         this.id = id;

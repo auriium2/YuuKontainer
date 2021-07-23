@@ -68,11 +68,6 @@ public class CommonTickFactory implements TickFactory{
 
         logger.info("Client produced successfully! Executing final startup activities...");
 
-        //TODO test the dockersource - run multiple client commands and a test startup/shutdown on it
-        if (creationOptions.isUsePostCreationTest()) {
-            logger.debug("Test would occur here!");
-        }
-
         Version dockerVersion = client.versionCmd().exec();
 
         logger.info("(DockerClient startup successful!" + "\n" +

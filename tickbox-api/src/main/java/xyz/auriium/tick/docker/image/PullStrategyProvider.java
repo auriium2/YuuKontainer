@@ -9,6 +9,6 @@ import xyz.auriium.tick.centralized.ResourceManager;
  */
 public interface PullStrategyProvider {
 
-    CommonPoolStrategy provide(DockerClient client, ResourceManager manager);
+    DefaultPullStrategy provide(DockerClient client, ResourceManager manager);
 
 }

@@ -15,5 +15,6 @@ public interface ResourceManager extends Stoppable {
      * @param imageName the name of the image
      */
     void submitImage(String imageName);
+    void destroyImage(String imageName);
 
 }

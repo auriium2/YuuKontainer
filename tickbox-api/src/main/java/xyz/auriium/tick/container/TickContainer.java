@@ -1,5 +1,6 @@
 package xyz.auriium.tick.container;
 
+import com.github.dockerjava.api.command.InspectContainerResponse;
 import xyz.auriium.tick.model.Stoppable;
 
 /**

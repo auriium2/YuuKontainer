@@ -3,7 +3,6 @@ package xyz.auriium.tick.docker.image;
 import com.github.dockerjava.api.command.PullImageResultCallback;
 import com.github.dockerjava.api.model.PullResponseItem;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.time.Duration;
@@ -14,9 +13,9 @@ import static java.lang.String.format;
 import static org.apache.commons.io.FileUtils.byteCountToDisplaySize;
 
 /**
- * Credit where credit is due: Some of this stuff is from TestContainers
+ * Credit where credit is due: this stuff is from TestContainers
  */
-public class LoggingPullResultCallback extends PullImageResultCallback {
+public class DefaultPullCallback extends PullImageResultCallback {
 
     private Instant start;
 
@@ -26,9 +25,13 @@ public class LoggingPullResultCallback extends PullImageResultCallback {
     private final Map<String, Long> totalSizes = new HashMap<>();
     private final Map<String, Long> currentSizes = new HashMap<>();
 
-    private final Logger logger = LoggerFactory.getLogger("(TICK | IMAGE PULL)");
+    private final Logger logger;
 
     private boolean completed = false;
+
+    public DefaultPullCallback(Logger logger) {
+        this.logger = logger;
+    }
 
     @Override
     public void onStart(Closeable stream) {

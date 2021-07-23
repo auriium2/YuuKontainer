@@ -8,6 +8,8 @@ import xyz.auriium.tick.containers.sql.JDBCTerms;
 import xyz.auriium.tick.container.Arguments;
 import xyz.auriium.tick.docker.source.DockerSource;
 
+import java.util.Optional;
+
 /**
  * mariadb
  *
@@ -48,8 +50,8 @@ public class MariaDBTerms implements JDBCTerms {
     }
 
     @Override
-    public PortBinding getBinding() {
-        return args.getBinding();
+    public Optional<PortBinding> getBinding() {
+        return Optional.of(args.getBinding());
     }
 
     @Override
