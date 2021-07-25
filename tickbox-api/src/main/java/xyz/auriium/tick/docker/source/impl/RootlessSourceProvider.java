@@ -21,7 +21,6 @@ import java.util.Optional;
  * This was copy pasted from testcontainers and adapted to the tickbox format. I have no idea whether
  * or not it actually functions.
  */
-@Deprecated
 public class RootlessSourceProvider extends SimpleSourceProvider{
 
     private static final Logger logger = LoggerFactory.getLogger("(TICK | ROOTLESS DOCKER PROVIDER)");
@@ -75,7 +74,7 @@ public class RootlessSourceProvider extends SimpleSourceProvider{
 
     @Override
     public Integer priority() {
-        return 5;
+        return 29;
     }
 
     @Override

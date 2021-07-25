@@ -1,4 +1,4 @@
-package xyz.auriium.tick.model;
+package xyz.auriium.tick.utils;
 
 import java.io.Closeable;
 import java.io.IOException;

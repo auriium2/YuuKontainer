@@ -13,6 +13,13 @@
     <artifactId>tickbox-parent</artifactId>
     <version>1.0.0</version>
 
+    <name>TickBox</name>
+    <description>Testcontainers alternative</description>
+
+    <scm>
+        <developerConnection>scm:git:https://github.com/Auriium/TickBox.git</developerConnection>
+    </scm>
+
     <modules>
         <module>tickbox-api</module>
         <module>tickbox-containers-sql</module>

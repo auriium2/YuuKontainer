@@ -1,4 +1,4 @@
-package xyz.auriium.tick.docker.source.impl;
+package xyz.auriium.tick.docker.source;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

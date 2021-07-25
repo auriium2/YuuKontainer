@@ -1,6 +1,7 @@
 package xyz.auriium.tick.container;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.model.Bind;
 import com.github.dockerjava.api.model.PortBinding;
 import xyz.auriium.tick.centralized.ResourceManager;
 import xyz.auriium.tick.docker.source.DockerSource;
@@ -13,12 +14,19 @@ public interface CreationTerms<T extends TickContainer>  {
 
     String[] getParameters();
 
-    Optional<PortBinding> getBinding();
+    Optional<Bind[]> getBinds();
+
+    Optional<PortBinding[]> getPortBindings();
+
+    Optional<String[]> getCommands();
 
     String getContainerName();
 
+
     /**
      * Method used to describe the creation of the actual container
+     *
+     * Can also be used as a callback for post container startup
      *
      * @param location the dockersource used
      * @param dockerID the identifier of the container

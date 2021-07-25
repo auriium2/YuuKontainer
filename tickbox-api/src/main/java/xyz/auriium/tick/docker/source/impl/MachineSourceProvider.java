@@ -44,7 +44,7 @@ public class MachineSourceProvider extends SimpleSourceProvider {
 
     @Override
     public Integer priority() {
-        return 100;
+        return -9999999;
     }
 
     @Override

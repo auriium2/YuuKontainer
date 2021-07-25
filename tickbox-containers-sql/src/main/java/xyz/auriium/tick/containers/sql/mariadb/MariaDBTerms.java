@@ -1,5 +1,6 @@
 package xyz.auriium.tick.containers.sql.mariadb;
 
+import com.github.dockerjava.api.model.Bind;
 import com.github.dockerjava.api.model.PortBinding;
 import xyz.auriium.tick.centralized.ResourceManager;
 import xyz.auriium.tick.containers.sql.JDBCConfig;
@@ -14,6 +15,9 @@ import java.util.Optional;
  * mariadb
  *
  * external port is the exposed port of the mariadb container, but still
+ *
+ *
+ * EVERYTHING HERE NEEDS A TON OF WORK. JDBC SUPPORT FOR TESTCONTAINERS IS SOMETHING I AM ADDING TOMORROW NOT TONIGHT.
  *
  * TODO: image searching and guaruntees
  */
@@ -50,8 +54,18 @@ public class MariaDBTerms implements JDBCTerms {
     }
 
     @Override
-    public Optional<PortBinding> getBinding() {
-        return Optional.of(args.getBinding());
+    public Optional<Bind[]> getBinds() {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<PortBinding[]> getPortBindings() {
+        return Optional.of(new PortBinding[]{args.getBinding()});
+    }
+
+    @Override
+    public Optional<String[]> getCommands() {
+        return Optional.empty();
     }
 
     @Override

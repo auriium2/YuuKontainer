@@ -1,6 +1,6 @@
 package xyz.auriium.tick.docker.source.impl;
 
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang3.SystemUtils;
 import xyz.auriium.tick.container.CreationOptions;
 import xyz.auriium.tick.docker.source.ApplicableResult;
 
@@ -11,6 +11,7 @@ import java.net.URI;
  *
  * Literally copy and pasted from TestContainers
  */
+
 public class WindowsSourceProvider extends SimpleSourceProvider {
 
     protected static final String DOCKER_SOCK_PATH = "//./pipe/docker_engine";
@@ -33,9 +34,6 @@ public class WindowsSourceProvider extends SimpleSourceProvider {
 
     @Override
     public URI makeURI(CreationOptions options) {
-
-        System.out.println(URI.create(SOCKET_LOCATION));
-
         return URI.create(SOCKET_LOCATION);
     }
 }

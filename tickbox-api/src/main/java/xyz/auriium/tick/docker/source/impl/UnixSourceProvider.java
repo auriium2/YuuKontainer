@@ -28,7 +28,7 @@ public class UnixSourceProvider extends SimpleSourceProvider {
 
     @Override
     public Integer priority() {
-        return 21;
+        return 30;
     }
 
     @Override

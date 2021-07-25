@@ -1,9 +1,11 @@
 package xyz.auriium.tick.centralized;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.exception.DockerClientException;
 import com.github.dockerjava.api.model.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.auriium.tick.PostCreationTestException;
 import xyz.auriium.tick.container.CreationOptions;
 import xyz.auriium.tick.docker.InvalidProviderException;
 import xyz.auriium.tick.docker.image.PullStrategyProvider;
@@ -65,6 +67,14 @@ public class CommonTickFactory implements TickFactory{
 
         DockerSource source = sourceProvider.source(creationOptions);
         DockerClient client = source.getClient();
+
+        if (creationOptions.isUsePostCreationTest()) {
+            try {
+                client.versionCmd().exec();
+            } catch (DockerClientException exception) {
+                throw new PostCreationTestException(exception);
+            }
+        }
 
         logger.info("Client produced successfully! Executing final startup activities...");
 

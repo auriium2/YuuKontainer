@@ -1,6 +1,6 @@
 package xyz.auriium.tick.centralized;
 
-import xyz.auriium.tick.model.Stoppable;
+import xyz.auriium.tick.utils.Stoppable;
 
 /**
  * Manages resources for the tick system

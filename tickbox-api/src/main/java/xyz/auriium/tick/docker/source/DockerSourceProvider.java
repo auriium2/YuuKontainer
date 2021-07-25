@@ -2,9 +2,16 @@ package xyz.auriium.tick.docker.source;
 
 import xyz.auriium.tick.container.CreationOptions;
 
-public interface DockerSourceProvider {
+public interface DockerSourceProvider extends Comparable<DockerSourceProvider> {
 
     String name();
+
+    /**
+     * Priority to be tested by {@link xyz.auriium.tick.docker.source.impl.AutoSourceProvider}
+     * The higher the number the earlier it is tested.
+     *
+     * @return
+     */
     Integer priority();
 
     /**
@@ -20,4 +27,8 @@ public interface DockerSourceProvider {
      */
     ApplicableResult isApplicable();
 
+    @Override
+    default int compareTo(DockerSourceProvider o) {
+        return this.priority().compareTo(o.priority());
+    }
 }

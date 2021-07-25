@@ -1,8 +1,11 @@
 package xyz.auriium.tick.centralized;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.CreateContainerCmd;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.InspectContainerResponse;
+import com.github.dockerjava.api.exception.ConflictException;
+import com.github.dockerjava.api.exception.DockerClientException;
 import com.github.dockerjava.api.model.Bind;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.PortBinding;
@@ -13,6 +16,7 @@ import xyz.auriium.tick.container.TickContainer;
 import xyz.auriium.tick.docker.image.PullStrategy;
 import xyz.auriium.tick.docker.source.DockerSource;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class CommonTick implements Tick{
@@ -25,7 +29,7 @@ public class CommonTick implements Tick{
     private final PullStrategy strategy;
     private final ResourceManager manager;
 
-    public CommonTick(DockerSource location, PullStrategy strategy, ResourceManager manager) {
+    CommonTick(DockerSource location, PullStrategy strategy, ResourceManager manager) {
         this.location = location;
         this.client = location.getClient();
         this.strategy = strategy;
@@ -43,35 +47,26 @@ public class CommonTick implements Tick{
         logger.info("Using params: {}", Arrays.toString(terms.getParameters()));
 
         HostConfig config = new HostConfig();
+        terms.getPortBindings().ifPresent(config::withPortBindings);
+        terms.getBinds().ifPresent(config::withBinds);
 
-        terms.getBinding().ifPresent(config::withPortBindings);
-
-        CreateContainerResponse response = client.createContainerCmd(terms.getDockerImageName())
-                .withName(terms.getContainerName())
+        CreateContainerCmd cmd = client.createContainerCmd(terms.getDockerImageName())
                 .withHostName("tick")
+                .withName(terms.getContainerName())
                 .withEnv(terms.getParameters())
-                .withHostConfig(config)
-                .exec();
+                .withHostConfig(config);
+
+        terms.getCommands().ifPresent(cmd::withCmd);
+
+
+        CreateContainerResponse response = execDirtyHandlingException(cmd);
 
         String id = response.getId();
 
-        //manager.submitContainer(id,false);
+        manager.submitContainer(id,false);
         logger.info("Container created! Starting container now.");
 
-
         client.startContainerCmd(id).exec();
-
-        //TEST
-        CreateContainerResponse container
-                = client.createContainerCmd("alpine:latest")
-                .withName("control-variable")
-                .withHostName("baeldung")
-                .withEnv("MONGO_LATEST_VERSION=3.6")
-                .withPortBindings(PortBinding.parse("9999:27017"))
-                .withBinds(Bind.parse("/Users/baeldung/mongo/data/db:/data/db")).exec();
-
-        client.startContainerCmd(container.getId()).exec();
-
 
         InspectContainerResponse response1 = client.inspectContainerCmd(id).exec();
 
@@ -80,15 +75,49 @@ public class CommonTick implements Tick{
             throw new IllegalStateException("Executed container start command but container is not marked as started in docker! Including exception above.");
         }
 
-        //manager.submitContainer(id,true);
+        manager.submitContainer(id,true);
         logger.info("Container has been started successfully!");
 
         return terms.instantiateHolder(location,manager,response.getId());
+
+
+    }
+
+    @Override
+    public DockerSource expose() {
+        return location;
+    }
+
+    //A try/catch is required here in order for container to not persist and be effectively removed.
+    //all of this is hacky and gross so if anyone finds a better way please make a PR
+    CreateContainerResponse execDirtyHandlingException(CreateContainerCmd cmd) {
+        try {
+            return cmd.exec();
+        } catch (ConflictException e) {
+            logger.error("Error during execution: Two containers of the same name exist. Attempting to resolve. Printing stacktrace below:");
+
+            String s = e.getMessage();
+
+            s = s.substring(s.indexOf("r \\\"") + 4);
+            s = s.substring(0, s.indexOf("\\\"."));
+
+            manager.destroyContainer(s);
+            logger.error("Removed bad container. Exiting now! Sorry!");
+
+            throw new IllegalStateException(e.getMessage());
+        }
     }
 
     @Override
     public void stop() {
         logger.info("Stopping TickBox now! Goodnight!");
+
         manager.stop();
+
+        try {
+            client.close();
+        } catch (IOException e) {
+            throw new ShutdownException("An exception occurred while closing the connection to DockerClient: " + e);
+        }
     }
 }

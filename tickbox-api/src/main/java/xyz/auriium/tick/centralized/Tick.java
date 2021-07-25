@@ -2,7 +2,8 @@ package xyz.auriium.tick.centralized;
 
 import xyz.auriium.tick.container.CreationTerms;
 import xyz.auriium.tick.container.TickContainer;
-import xyz.auriium.tick.model.Stoppable;
+import xyz.auriium.tick.docker.source.DockerSource;
+import xyz.auriium.tick.utils.Stoppable;
 
 /**
  * Entry point into the tick api, allows for the creation of dockerized containers.
@@ -17,5 +18,11 @@ public interface Tick extends Stoppable {
      * @return a new container
      */
     <T extends TickContainer> T createContainer(CreationTerms<T> terms);
+
+    /**
+     * Testing
+     * @return testing
+     */
+    DockerSource expose();
 
 }

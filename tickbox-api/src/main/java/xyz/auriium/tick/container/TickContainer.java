@@ -1,10 +1,15 @@
 package xyz.auriium.tick.container;
 
-import com.github.dockerjava.api.command.InspectContainerResponse;
-import xyz.auriium.tick.model.Stoppable;
-
 /**
  * Represents an already created Container that can start and stop itself
+ *
+ * TODO add more methods to this barebones ass cringe bullshit
+ *
+ * some ideas:
+ *
+ * runShell(str) for a linux extension of this interface
+ * getStatus()
+ * get.. idk everything that dockerjava provides for us ;)
  */
 public interface TickContainer extends AutoCloseable{
 
