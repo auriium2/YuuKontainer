@@ -20,7 +20,7 @@ public class TinyImageTerms implements CreationTerms<TinyContainer>{
 
     public TinyImageTerms(String name) {
         this.name = name;
-        this.image = "mongo:latest";
+        this.image = "alpine:latest";
     }
 
     @Override
