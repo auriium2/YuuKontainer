@@ -13,7 +13,6 @@ import xyz.auriium.tick.container.TickContainer;
 import xyz.auriium.tick.container.TinyImageTerms;
 import xyz.auriium.tick.docker.image.DefaultPullStrategy;
 import xyz.auriium.tick.docker.source.impl.UnixSourceProvider;
-import xyz.auriium.tick.docker.source.impl.WindowsSourceProvider;
 
 @EnabledOnOs(OS.LINUX)
 public class UnixProviderTest extends BaseTest {

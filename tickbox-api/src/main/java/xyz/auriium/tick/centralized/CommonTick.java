@@ -4,6 +4,7 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerCmd;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.InspectContainerResponse;
+import com.github.dockerjava.api.exception.BadRequestException;
 import com.github.dockerjava.api.exception.ConflictException;
 import com.github.dockerjava.api.exception.DockerClientException;
 import com.github.dockerjava.api.model.Bind;
@@ -41,6 +42,7 @@ public class CommonTick implements Tick{
 
         strategy.loadIfRequired(terms.getDockerImageName());
 
+
         logger.info("Initializing container!");
         logger.info("Using image: {}", terms.getDockerImageName());
         logger.info("Using container name: {}", terms.getContainerName());
@@ -66,7 +68,18 @@ public class CommonTick implements Tick{
         manager.submitContainer(id,false);
         logger.info("Container created! Starting container now.");
 
-        client.startContainerCmd(id).exec();
+        try {
+            client.startContainerCmd(id).exec();
+        } catch (BadRequestException exception) {
+
+            //time to remove
+            logger.error("Error during startup of container. Exiting early. Printing stacktrace below.");
+            manager.destroyContainer(id);
+            logger.error("Removed bad container. Exiting now! Sorry!");
+
+            throw new IllegalStateException("An exception occurred while trying to start the container: " + exception);
+        }
+
 
         InspectContainerResponse response1 = client.inspectContainerCmd(id).exec();
 
@@ -88,24 +101,30 @@ public class CommonTick implements Tick{
         return location;
     }
 
+    //this all sucks i hate it
     //A try/catch is required here in order for container to not persist and be effectively removed.
     //all of this is hacky and gross so if anyone finds a better way please make a PR
     CreateContainerResponse execDirtyHandlingException(CreateContainerCmd cmd) {
         try {
             return cmd.exec();
         } catch (ConflictException e) {
-            logger.error("Error during execution: Two containers of the same name exist. Attempting to resolve. Printing stacktrace below:");
+            logger.error("Error during execution: Two containers of the same name exist. Destroying container and exiting early. Printing stacktrace below:");
 
-            String s = e.getMessage();
-
-            s = s.substring(s.indexOf("r \\\"") + 4);
-            s = s.substring(0, s.indexOf("\\\"."));
-
-            manager.destroyContainer(s);
-            logger.error("Removed bad container. Exiting now! Sorry!");
-
-            throw new IllegalStateException(e.getMessage());
+            return getCreateContainerResponse(e, e.getMessage());
         }
+    }
+
+    //destroy an invalid container
+    CreateContainerResponse getCreateContainerResponse(ConflictException e2, String message) {
+        String s = e2.getMessage();
+
+        s = s.substring(s.indexOf("r \\\"") + 4);
+        s = s.substring(0, s.indexOf("\\\"."));
+
+        manager.destroyContainer(s);
+        logger.error("Removed bad container. Exiting now! Sorry!");
+
+        throw new IllegalStateException(message);
     }
 
     @Override

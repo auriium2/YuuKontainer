@@ -11,14 +11,21 @@ import java.util.Optional;
 public class TinyImageTerms implements CreationTerms<TinyContainer>{
 
     private final String name;
+    private final String image;
+
+    public TinyImageTerms(String name, String image) {
+        this.name = name;
+        this.image = image;
+    }
 
     public TinyImageTerms(String name) {
         this.name = name;
+        this.image = "redis:latest";
     }
 
     @Override
     public String getDockerImageName() {
-        return "alpine:latest";
+        return image;
     }
 
     @Override
@@ -38,7 +45,7 @@ public class TinyImageTerms implements CreationTerms<TinyContainer>{
 
     @Override
     public Optional<String[]> getCommands() {
-        return Optionals.supply("top");
+        return Optional.empty();
     }
 
     @Override

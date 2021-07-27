@@ -57,4 +57,12 @@ public class BadContainerTest extends BaseTest {
 
     }
 
+    public void When_BadImage_PurgesSafely() {
+
+        assertThrows(IllegalStateException.class, () -> {
+           testingTick.createContainer(new TinyImageTerms("the-same", "hello-world"));
+        });
+
+    }
+
 }
