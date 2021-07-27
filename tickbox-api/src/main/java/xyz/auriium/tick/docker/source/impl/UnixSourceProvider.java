@@ -33,7 +33,7 @@ public class UnixSourceProvider extends SimpleSourceProvider {
 
     @Override
     public ApplicableResult isApplicable() {
-        if (!(SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_MAC)) return ApplicableResult.fail("System is not UNIX based!");
+        if (!(SystemUtils.IS_OS_LINUX || SystemUtils.IS_OS_MAC)) return ApplicableResult.fail("System is not UNIX based!");
 
         Integer mode;
         try {
