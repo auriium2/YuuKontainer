@@ -45,7 +45,7 @@ public class TinyImageTerms implements CreationTerms<TinyContainer>{
 
     @Override
     public Optional<String[]> getCommands() {
-        return Optional.empty();
+        return Optionals.supply("top");
     }
 
     @Override
