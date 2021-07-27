@@ -13,7 +13,7 @@
     <artifactId>tickbox-parent</artifactId>
     <version>1.0.0</version>
 
-    <name>TickBox</name>
+    <name>Kontainer</name>
     <description>Testcontainers alternative</description>
 
     <scm>
@@ -21,8 +21,9 @@
     </scm>
 
     <modules>
-        <module>tickbox-api</module>
-        <module>tickbox-containers-sql</module>
+        <module>kontainer-api</module>
+        <module>kontainer-sql</module>
+        <module>kontainer-maven-plugin</module>
     </modules>
 
     <properties>
