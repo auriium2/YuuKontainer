@@ -4,19 +4,29 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.aurium</groupId>
-    <artifactId>tick</artifactId>
+    <parent>
+        <groupId>xyz.auriium</groupId>
+        <artifactId>insect</artifactId>
+        <version>0.3.0</version>
+    </parent>
+
+    <artifactId>tickbox-parent</artifactId>
     <version>1.0.0</version>
 
+    <name>Kontainer</name>
+    <description>Testcontainers alternative</description>
+
+    <scm>
+        <developerConnection>scm:git:https://github.com/Auriium/Kontainer.git</developerConnection>
+    </scm>
+
     <modules>
-        <module>tick-full</module>
-        <module>tick-rapid</module>
-        <module>tick-api</module>
+        <module>kontainer-api</module>
+        <module>kontainer-sql</module>
+        <module>kontainer-maven-plugin</module>
     </modules>
 
     <properties>
-        <compiler.version>1.8</compiler.version>
-
         <maven.compiler.source>${compiler.version}</maven.compiler.source>
         <maven.compiler.target>${compiler.version}</maven.compiler.target>
 
@@ -24,7 +34,7 @@
         <maven.pluginplugin.version>3.6.0</maven.pluginplugin.version>
         <maven.deploy.version>3.6.3</maven.deploy.version>
 
-        <testcontainers.version>1.15.2</testcontainers.version>
+        <docker.version>3.2.7</docker.version>
     </properties>
 
     <build>
@@ -52,13 +62,23 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>xyz.auriium</groupId>
+                <artifactId>tickbox-api</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
         <repository>
-            <id>repsy</id>
-            <name>ElytraForceRepo</name>
-            <url>https://repo.repsy.io/mvn/elytraforce/default</url>
+            <id>central-repo</id>
+            <url>https://repo.auriium.xyz/releases</url>
         </repository>
-    </distributionManagement>
+    </repositories>
 
 
 </project>
+
