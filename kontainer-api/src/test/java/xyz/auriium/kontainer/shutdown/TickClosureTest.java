@@ -41,7 +41,6 @@ public class TickClosureTest extends BaseTest {
         Tick tick = new CommonTickFactory(new HookResourceManager.Provider(false), new WindowsSourceProvider(), new DefaultPullStrategy.Provider()).produce();
 
         tick.createContainer(new TinyImageTerms("should-not-exist"));
-
         tick.stop();
 
         assertThrows(NotFoundException.class, () -> {
