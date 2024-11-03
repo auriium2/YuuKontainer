@@ -44,11 +44,6 @@ stat /home/user/.docker/config.json: permission denied```
 You can fix this by following the instructions of the site here:
 https://docs.docker.com/engine/install/linux-postinstall/
 
-A Docker-Machine module exists but is currently unusuable due to the various requirements to convince
-DockerMachine to port-forward external port access to the internal docker container. Therefore, please
-do not attempt to use the docker-machine strategy.
-
-
 ## I want to use this
 
 ```
