@@ -12,25 +12,16 @@ multiple tests.)
 
 # Warning
 
-Kontainer is not TestContainers. It isn't really even meant to fill the same role that testcontainers fills.
-Kontainer is a general purpose container creation library fit for use with JDBC. TestContainers is explicitly for testing.
+Kontainer is not TestContainers. It isn't meant to fill the same role that testcontainers fills.
+Kontainer is a general purpose container creation library fit for use with JDBC. TestContainers shines in it's stated purpose: using docker containers for testing.
 
 While Kontainer is also very useful in the testing environment, Kontainer explicitly avoids hackery and "magic code"
 that applications like TestContainers may implement in order to smoothen the testing experience.
 In TestContainers, various reflective hacks are done in order to allow containers to stop at the end of a JUnit test.
 A separate docker container is deployed just to make sure resources do not escape. (ryuk)
 
-In TestContainers, I try to explicitly avoid magic code/hackery/static abuse while also offering you the option of choice.
-TestContainers is brittle and static in design, and if you want to change something you'll have to dig deep into
-the archaic, bloated source code and edit it in yourself. If you want to change something in Kontainer, write a new
-implementation of a single interface, or change a value in a configuration object.
-
-The biggest part of TestContainers for me that I attempt to give choice with is the ResourceReaper, 
-or in our case, the ResourceManager. In TestContainers, it is a static part of the program 
-that is essential, forcing Ryuk and runtime shutdown hooks down your throat. Here, you may choose
-if you would like the HookResourceManager (Features both automatic closing of containers on jvm shutdown
-as well as closing of containers and images when the main Kontainer instance is closed) or the EmptyResourceManager
-(which allows you to manually and explicitly remove resources left behind)
+In Kontainer, I try to explicitly avoid magic code and also offering you the option of choice.
+TestContainers is a product of design requirements far beyond the scale that I could conceivably handle, and capably handles many more situations than Kontainer can. However, the same design requirements can lead to difficulty when you need to deal with container after-effects and other semantics. If you want to change something in Kontainer, it is possible to write a new implementation of a single interface, or change a value in a configuration object.
 
 # Unix Info
 
@@ -68,5 +59,3 @@ do not attempt to use the docker-machine strategy.
     </repository>
 </repositories>
 ```
-
-"Kontainer" as in "Kontainer", a parasite that hooks onto something (docker) and "Box", as in a container.
