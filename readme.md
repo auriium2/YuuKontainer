@@ -3,6 +3,7 @@
 
 # TLDR
 - spawn in docker containers
+- spawn them outside of tests!
 - bring your own image or use ours
 - friendly api, sane defaults
 - convenient maven plugin
@@ -12,20 +13,25 @@ YuuKontainer is a library that lets you spawn docker containers directly from co
 
 You can spawn containers from your production code, per unit test, for all unit tests, or even before other maven plugins with the kontainer-maven-plugin module
 
-# Warning
+## How do I use this?
+- Create a `TickFactory`, like so, and call `#produce()` on it to get a `Tick` library object:
+  - add a new `HookResourceManager`,
+  - add either a `WindowsSourceProvider` or `UnixSourceProvider`, depending on your test server's OS;
+  - add a `DefaultPullStrategy`
+- Call `tick.createContainer(new TinyImageTerms("redis"))`
+- You now have a handle to a live running redis container!
 
-Kontainer is not TestContainers. It isn't meant to fill the same role that testcontainers fills.
-Kontainer is a general purpose container creation library fit for use with JDBC. TestContainers shines in it's stated purpose: using docker containers for testing.
+```
+Tick t = new CommonTickFactory(
+    new HookResourceManager.Provider(false),
+    <docker launch provider>,
+    new DefaultPullStrategy.Provider()
+).produce();
 
-While Kontainer is also very useful in the testing environment, Kontainer explicitly avoids hackery and "magic code"
-that applications like TestContainers may implement in order to smoothen the testing experience.
-In TestContainers, various reflective hacks are done in order to allow containers to stop at the end of a JUnit test.
-A separate docker container is deployed just to make sure resources do not escape. (ryuk)
+t.createContainer(new TinyImageTerms("redis"));
+```
 
-In Kontainer, I try to explicitly avoid magic code and also offering you the option of choice.
-TestContainers is a product of design requirements far beyond the scale that I could conceivably handle, and capably handles many more situations than Kontainer can. However, the same design requirements can lead to difficulty when you need to deal with container after-effects and other semantics. If you want to change something in Kontainer, it is possible to write a new implementation of a single interface, or change a value in a configuration object.
-
-# Unix Info
+## Unix Info
 
 If you want to use Kontainer on Unix (MacOS or Linux) make sure that Docker is set up so it does
 not need the sudo command to run. Kontainer (And TestContainers) use console commands internally
@@ -43,7 +49,7 @@ DockerMachine to port-forward external port access to the internal docker contai
 do not attempt to use the docker-machine strategy.
 
 
-# Maven Info
+## I want to use this
 
 ```
 <dependencies>
@@ -61,3 +67,6 @@ do not attempt to use the docker-machine strategy.
     </repository>
 </repositories>
 ```
+
+## Inspirations
+YuuKontainer was inspired by TestContainers; it was created as a lighter weight alternative that did not require reflection or the spawning containers for book-keeping, and especially aimed to be generalizable beyond testing Despite this, TestContainers is still a viable and quality alternative if you just need docker containers at test time.
