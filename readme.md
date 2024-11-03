@@ -1,14 +1,16 @@
-# Kontainer
+# YuuKontainer
+> Dockerized database container creation system + maven plugins.
 
-A dockerized Database Container creation system + maven plugins.
+# TLDR
+- spawn in docker containers
+- bring your own image or use ours
+- friendly api, sane defaults
+- convenient maven plugin
+  
+## What is this?
+YuuKontainer is a library that lets you spawn docker containers directly from code, without having to worry about the semantics of where they're running or the anxiety of cleaning them up.
 
-# Description 
-
-A tool meant for developers who really really don't want to use the mess that is TestContainers.
-
-Comes in both code-based (Kontainer-api) and maven plugin (Kontainer-plugin) formats depending on 
-your use case (Whether you want a single container for all tests or need multiple containers for 
-multiple tests.)
+You can spawn containers from your production code, per unit test, for all unit tests, or even before other maven plugins with the kontainer-maven-plugin module
 
 # Warning
 
