@@ -1,4 +1,3 @@
-# todo - remake this and stop bashing on testcontainers please
 # Kontainer
 
 A dockerized Database Container creation system + maven plugins.
